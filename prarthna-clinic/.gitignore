@@ -1,0 +1,30 @@
+# ===== Frontend =====
+frontend/node_modules/
+frontend/.next/
+frontend/out/
+frontend/.env.local
+frontend/.env*.local
+
+# ===== Backend =====
+backend/target/
+backend/*.jar
+backend/.mvn/
+backend/uploads/
+
+# ===== IDE =====
+.idea/
+.vscode/
+*.iml
+*.ipr
+*.iws
+.DS_Store
+Thumbs.db
+
+# ===== Logs =====
+*.log
+logs/
+
+# ===== Env =====
+.env
+.env.local
+.env.production

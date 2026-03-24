@@ -1,0 +1,9 @@
+target/
+*.jar
+*.war
+*.class
+.mvn/wrapper/maven-wrapper.jar
+uploads/
+.DS_Store
+*.log
+application-local.properties

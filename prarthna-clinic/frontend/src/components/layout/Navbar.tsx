@@ -1,0 +1,108 @@
+'use client'
+
+import { useState, useEffect } from 'react'
+import Link from 'next/link'
+import Image from 'next/image'
+import { usePathname } from 'next/navigation'
+import { Menu, X, Phone } from 'lucide-react'
+
+const navLinks = [
+  { href: '/',         label: 'Home' },
+  { href: '/doctors',  label: 'Doctors' },
+  { href: '/services', label: 'Services' },
+  { href: '/about',    label: 'About' },
+  { href: '/contact',  label: 'Contact' },
+]
+
+export default function Navbar() {
+  const [scrolled,    setScrolled]    = useState(false)
+  const [mobileOpen,  setMobileOpen]  = useState(false)
+  const pathname = usePathname()
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 60)
+    window.addEventListener('scroll', onScroll)
+    return () => window.removeEventListener('scroll', onScroll)
+  }, [])
+
+  return (
+    <header
+      className={`sticky top-0 z-50 w-full transition-all duration-300 ${
+        scrolled ? 'bg-white/95 backdrop-blur-md shadow-md' : 'bg-white border-b border-blue-100'
+      }`}
+    >
+      {/* Top bar */}
+      <div className="bg-blue-800 text-white text-xs py-1.5 px-6 flex justify-between items-center">
+        <span>Mon–Sat: 11AM–7PM &nbsp;|&nbsp; Sun: 11AM–2PM</span>
+        <span className="flex items-center gap-1.5">
+          <Phone size={11} /> +91-129-400-0000
+        </span>
+      </div>
+
+      {/* Main nav */}
+      <nav className="max-w-7xl mx-auto px-6 h-[68px] flex items-center justify-between">
+        {/* Logo */}
+        <Link href="/" className="flex items-center gap-3">
+          <div className="w-11 h-11 bg-blue-50 rounded-full flex items-center justify-center overflow-hidden border border-blue-100">
+            <Image src="/images/logo.png" alt="Prarthna Clinic" width={40} height={40} className="object-contain" />
+          </div>
+          <div className="leading-tight">
+            <div className="font-serif text-xl font-bold text-blue-800">Prarthna Clinic</div>
+            <div className="text-[10px] text-slate-400 uppercase tracking-widest">Multispeciality Healthcare</div>
+          </div>
+        </Link>
+
+        {/* Desktop links */}
+        <ul className="hidden md:flex items-center gap-7">
+          {navLinks.map(({ href, label }) => (
+            <li key={href}>
+              <Link
+                href={href}
+                className={`text-sm font-medium transition-colors relative pb-0.5 after:absolute after:bottom-0 after:left-0 after:h-[1.5px] after:bg-blue-600 after:transition-all ${
+                  pathname === href
+                    ? 'text-blue-700 after:w-full'
+                    : 'text-slate-500 hover:text-blue-700 after:w-0 hover:after:w-full'
+                }`}
+              >
+                {label}
+              </Link>
+            </li>
+          ))}
+        </ul>
+
+        {/* CTA */}
+        <div className="hidden md:flex items-center gap-3">
+          <Link href="/login" className="btn-outline text-sm py-2 px-5">Login</Link>
+          <Link href="/booking" className="btn-primary text-sm py-2 px-5">Book Appointment</Link>
+        </div>
+
+        {/* Mobile hamburger */}
+        <button className="md:hidden p-2" onClick={() => setMobileOpen(!mobileOpen)}>
+          {mobileOpen ? <X size={22} className="text-blue-800" /> : <Menu size={22} className="text-blue-800" />}
+        </button>
+      </nav>
+
+      {/* Mobile menu */}
+      {mobileOpen && (
+        <div className="md:hidden bg-white border-t border-blue-50 px-6 py-4 flex flex-col gap-3">
+          {navLinks.map(({ href, label }) => (
+            <Link
+              key={href}
+              href={href}
+              onClick={() => setMobileOpen(false)}
+              className={`text-sm font-medium py-2 border-b border-blue-50 ${
+                pathname === href ? 'text-blue-700' : 'text-slate-600'
+              }`}
+            >
+              {label}
+            </Link>
+          ))}
+          <div className="flex gap-3 pt-2">
+            <Link href="/login"   className="btn-outline flex-1 text-center text-sm py-2">Login</Link>
+            <Link href="/booking" className="btn-primary flex-1 text-center text-sm py-2">Book Now</Link>
+          </div>
+        </div>
+      )}
+    </header>
+  )
+}
