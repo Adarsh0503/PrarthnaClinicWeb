@@ -15,8 +15,8 @@ export default function ContactPage() {
           <h2 className="font-serif text-3xl font-bold text-blue-900 mb-8">Get in Touch</h2>
           <div className="flex flex-col gap-5 mb-10">
             {[
-              { icon: Phone, label: 'Phone',      val: '+91-129-400-0000',       sub: 'Mon–Sat 11AM–7PM' },
-              { icon: Mail,  label: 'Email',      val: 'care@prartnaclinic.in',  sub: 'We reply within 2 hours' },
+              { icon: Phone, label: 'Phone',      val: '+91-9599752226',       sub: 'Mon–Sat 11AM–7PM' },
+              { icon: Mail,  label: 'Email',      val: 'parit1605@gmail.com',  sub: 'We reply within 2 hours' },
               { icon: Clock, label: 'Timings',    val: 'Mon–Sat: 11AM – 7PM',   sub: 'Sunday: 11AM – 2PM' },
             ].map(({ icon: Icon, label, val, sub }) => (
               <div key={label} className="flex items-start gap-4 bg-white border border-blue-100 rounded-2xl p-5">
