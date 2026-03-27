@@ -29,6 +29,8 @@ export default function LoginPage() {
       const res = await authAPI.login(data)
       localStorage.setItem('token', res.data.token)
       localStorage.setItem('user', JSON.stringify(res.data))
+      // Notify Navbar in same tab immediately
+      window.dispatchEvent(new Event('auth-change'))
       toast.success('Login successful!')
       window.location.href = '/'
     } catch (err: unknown) {

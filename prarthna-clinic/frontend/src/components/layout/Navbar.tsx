@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import { usePathname } from 'next/navigation'
-import { Menu, X, Phone } from 'lucide-react'
+import { Menu, X, Phone, LogOut, User } from 'lucide-react'
 
 const navLinks = [
   { href: '/',         label: 'Home' },
@@ -15,8 +15,9 @@ const navLinks = [
 ]
 
 export default function Navbar() {
-  const [scrolled,    setScrolled]    = useState(false)
-  const [mobileOpen,  setMobileOpen]  = useState(false)
+  const [scrolled,   setScrolled]   = useState(false)
+  const [mobileOpen, setMobileOpen] = useState(false)
+  const [userName,   setUserName]   = useState<string | null>(null)
   const pathname = usePathname()
 
   useEffect(() => {
@@ -25,13 +26,43 @@ export default function Navbar() {
     return () => window.removeEventListener('scroll', onScroll)
   }, [])
 
+  useEffect(() => {
+    const readAuth = () => {
+      const stored = localStorage.getItem('user')
+      if (stored) {
+        try {
+          const u = JSON.parse(stored)
+          setUserName(u.name || u.email || 'Account')
+        } catch {
+          setUserName(null)
+        }
+      } else {
+        setUserName(null)
+      }
+    }
+    readAuth()
+    window.addEventListener('auth-change', readAuth)
+    window.addEventListener('storage', readAuth)
+    return () => {
+      window.removeEventListener('auth-change', readAuth)
+      window.removeEventListener('storage', readAuth)
+    }
+  }, [])
+
+  const handleLogout = () => {
+    localStorage.removeItem('token')
+    localStorage.removeItem('user')
+    setUserName(null)
+    window.dispatchEvent(new Event('auth-change'))
+    window.location.href = '/'
+  }
+
   return (
     <header
       className={`sticky top-0 z-50 w-full transition-all duration-300 ${
         scrolled ? 'bg-white/95 backdrop-blur-md shadow-md' : 'bg-white border-b border-blue-100'
       }`}
     >
-      {/* Top bar */}
       <div className="bg-blue-800 text-white text-xs py-1.5 px-6 flex justify-between items-center">
         <span>Mon–Sat: 11AM–7PM &nbsp;|&nbsp; Sun: 11AM–2PM</span>
         <span className="flex items-center gap-1.5">
@@ -39,9 +70,7 @@ export default function Navbar() {
         </span>
       </div>
 
-      {/* Main nav */}
       <nav className="max-w-7xl mx-auto px-6 h-[68px] flex items-center justify-between">
-        {/* Logo */}
         <Link href="/" className="flex items-center gap-3">
           <div className="w-11 h-11 bg-blue-50 rounded-full flex items-center justify-center overflow-hidden border border-blue-100">
             <Image src="/images/logo.png" alt="Prarthna Clinic" width={40} height={40} className="object-contain" />
@@ -52,7 +81,6 @@ export default function Navbar() {
           </div>
         </Link>
 
-        {/* Desktop links */}
         <ul className="hidden md:flex items-center gap-7">
           {navLinks.map(({ href, label }) => (
             <li key={href}>
@@ -70,19 +98,31 @@ export default function Navbar() {
           ))}
         </ul>
 
-        {/* CTA */}
         <div className="hidden md:flex items-center gap-3">
-          <Link href="/login" className="btn-outline text-sm py-2 px-5">Login</Link>
-          <Link href="/booking" className="btn-primary text-sm py-2 px-5">Book Appointment</Link>
+          {userName ? (
+            <>
+              <span className="flex items-center gap-1.5 text-sm text-blue-800 font-medium">
+                <User size={15} className="text-blue-600" />
+                {userName}
+              </span>
+              <button onClick={handleLogout} className="btn-outline text-sm py-2 px-4 flex items-center gap-1.5">
+                <LogOut size={14} /> Logout
+              </button>
+              <Link href="/booking" className="btn-primary text-sm py-2 px-5">Book Appointment</Link>
+            </>
+          ) : (
+            <>
+              <Link href="/login"   className="btn-outline text-sm py-2 px-5">Login</Link>
+              <Link href="/booking" className="btn-primary text-sm py-2 px-5">Book Appointment</Link>
+            </>
+          )}
         </div>
 
-        {/* Mobile hamburger */}
         <button className="md:hidden p-2" onClick={() => setMobileOpen(!mobileOpen)}>
           {mobileOpen ? <X size={22} className="text-blue-800" /> : <Menu size={22} className="text-blue-800" />}
         </button>
       </nav>
 
-      {/* Mobile menu */}
       {mobileOpen && (
         <div className="md:hidden bg-white border-t border-blue-50 px-6 py-4 flex flex-col gap-3">
           {navLinks.map(({ href, label }) => (
@@ -98,8 +138,21 @@ export default function Navbar() {
             </Link>
           ))}
           <div className="flex gap-3 pt-2">
-            <Link href="/login"   className="btn-outline flex-1 text-center text-sm py-2">Login</Link>
-            <Link href="/booking" className="btn-primary flex-1 text-center text-sm py-2">Book Now</Link>
+            {userName ? (
+              <>
+                <span className="text-sm text-blue-800 font-medium flex items-center gap-1 flex-1">
+                  <User size={14} /> {userName}
+                </span>
+                <button onClick={handleLogout} className="btn-outline flex-1 text-center text-sm py-2 flex items-center justify-center gap-1">
+                  <LogOut size={13} /> Logout
+                </button>
+              </>
+            ) : (
+              <>
+                <Link href="/login"   className="btn-outline flex-1 text-center text-sm py-2" onClick={() => setMobileOpen(false)}>Login</Link>
+                <Link href="/booking" className="btn-primary flex-1 text-center text-sm py-2" onClick={() => setMobileOpen(false)}>Book Now</Link>
+              </>
+            )}
           </div>
         </div>
       )}
