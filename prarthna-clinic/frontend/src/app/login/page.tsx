@@ -19,22 +19,24 @@ export default function LoginPage() {
   const [showPass, setShowPass] = useState(false)
   const [loading,  setLoading]  = useState(false)
 
-  const { register, handleSubmit, formState: { errors } } = useForm<FormData>({
+  const { register, handleSubmit, setValue, formState: { errors } } = useForm<FormData>({
     resolver: zodResolver(schema),
   })
+
+  const quickLogin = (email: string, password: string) => {
+    setValue('email', email, { shouldValidate: true })
+    setValue('password', password, { shouldValidate: true })
+  }
 
   const onSubmit = async (data: FormData) => {
     setLoading(true)
     try {
       const res = await authAPI.login(data)
-      // API returns { success, message, data: { token, name, email, role, id } }
       const userData = res.data.data ?? res.data
       localStorage.setItem('token', userData.token)
       localStorage.setItem('user', JSON.stringify(userData))
       window.dispatchEvent(new Event('auth-change'))
       toast.success('Login successful!')
-
-      // Redirect based on role
       const role = userData.role?.toLowerCase()
       if (role === 'admin') {
         window.location.href = '/admin'
@@ -90,22 +92,14 @@ export default function LoginPage() {
             <p className="text-xs text-slate-400 text-center mb-3">Quick login</p>
             <div className="grid grid-cols-3 gap-2">
               {[
-                { label: 'Admin',     email: 'admin@prartnaclinic.in',    password: 'Admin@123' },
+                { label: 'Admin',        email: 'admin@prartnaclinic.in',    password: 'Admin@123' },
                 { label: 'Dr. Paritosh', email: 'paritosh@prartnaclinic.in', password: 'Doctor@123' },
-                { label: 'Dr. Rajni', email: 'rajni@prartnaclinic.in',    password: 'Doctor@123' },
+                { label: 'Dr. Rajni',    email: 'rajni@prartnaclinic.in',    password: 'Doctor@123' },
               ].map(({ label, email, password }) => (
                 <button
                   key={label}
                   type="button"
-                  onClick={() => {
-                    const emailInput = document.querySelector('input[type="email"]') as HTMLInputElement
-                    const passInput  = document.querySelector('input[type="password"], input[type="text"]') as HTMLInputElement
-                    if (emailInput) emailInput.value = email
-                    if (passInput)  passInput.value  = password
-                    // trigger react-hook-form
-                    emailInput?.dispatchEvent(new Event('input', { bubbles: true }))
-                    passInput?.dispatchEvent(new Event('input', { bubbles: true }))
-                  }}
+                  onClick={() => quickLogin(email, password)}
                   className="text-xs bg-blue-50 hover:bg-blue-100 text-blue-700 rounded-lg py-2 px-2 transition-colors text-center"
                 >
                   {label}
