@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import { usePathname } from 'next/navigation'
-import { Menu, X, Phone, LogOut, User } from 'lucide-react'
+import { Menu, X, Phone, LogOut, User, LayoutDashboard } from 'lucide-react'
 
 const navLinks = [
   { href: '/',         label: 'Home' },
@@ -14,10 +14,16 @@ const navLinks = [
   { href: '/contact',  label: 'Contact' },
 ]
 
+interface AuthUser {
+  name: string
+  email: string
+  role: string
+}
+
 export default function Navbar() {
   const [scrolled,   setScrolled]   = useState(false)
   const [mobileOpen, setMobileOpen] = useState(false)
-  const [userName,   setUserName]   = useState<string | null>(null)
+  const [authUser,   setAuthUser]   = useState<AuthUser | null>(null)
   const pathname = usePathname()
 
   useEffect(() => {
@@ -30,14 +36,10 @@ export default function Navbar() {
     const readAuth = () => {
       const stored = localStorage.getItem('user')
       if (stored) {
-        try {
-          const u = JSON.parse(stored)
-          setUserName(u.name || u.email || 'Account')
-        } catch {
-          setUserName(null)
-        }
+        try { setAuthUser(JSON.parse(stored)) }
+        catch { setAuthUser(null) }
       } else {
-        setUserName(null)
+        setAuthUser(null)
       }
     }
     readAuth()
@@ -52,10 +54,20 @@ export default function Navbar() {
   const handleLogout = () => {
     localStorage.removeItem('token')
     localStorage.removeItem('user')
-    setUserName(null)
+    setAuthUser(null)
     window.dispatchEvent(new Event('auth-change'))
     window.location.href = '/'
   }
+
+  const getDashboardLink = () => {
+    if (!authUser) return null
+    const role = authUser.role?.toLowerCase()
+    if (role === 'admin') return { href: '/admin', label: 'Admin' }
+    if (role === 'doctor') return { href: '/doctor/dashboard', label: 'My Patients' }
+    return { href: '/patient/dashboard', label: 'My Bookings' }
+  }
+
+  const dashboardLink = getDashboardLink()
 
   return (
     <header
@@ -99,12 +111,18 @@ export default function Navbar() {
         </ul>
 
         <div className="hidden md:flex items-center gap-3">
-          {userName ? (
+          {authUser ? (
             <>
               <span className="flex items-center gap-1.5 text-sm text-blue-800 font-medium">
                 <User size={15} className="text-blue-600" />
-                {userName}
+                {authUser.name || authUser.email}
               </span>
+              {dashboardLink && (
+                <Link href={dashboardLink.href} className="flex items-center gap-1.5 text-sm text-blue-600 hover:text-blue-800 font-medium transition-colors">
+                  <LayoutDashboard size={14} />
+                  {dashboardLink.label}
+                </Link>
+              )}
               <button onClick={handleLogout} className="btn-outline text-sm py-2 px-4 flex items-center gap-1.5">
                 <LogOut size={14} /> Logout
               </button>
@@ -137,21 +155,26 @@ export default function Navbar() {
               {label}
             </Link>
           ))}
-          <div className="flex gap-3 pt-2">
-            {userName ? (
+          <div className="flex flex-col gap-2 pt-2">
+            {authUser ? (
               <>
-                <span className="text-sm text-blue-800 font-medium flex items-center gap-1 flex-1">
-                  <User size={14} /> {userName}
+                <span className="text-sm text-blue-800 font-medium flex items-center gap-1">
+                  <User size={14} /> {authUser.name || authUser.email}
                 </span>
-                <button onClick={handleLogout} className="btn-outline flex-1 text-center text-sm py-2 flex items-center justify-center gap-1">
+                {dashboardLink && (
+                  <Link href={dashboardLink.href} onClick={() => setMobileOpen(false)} className="text-sm text-blue-600 font-medium flex items-center gap-1">
+                    <LayoutDashboard size={14} /> {dashboardLink.label}
+                  </Link>
+                )}
+                <button onClick={handleLogout} className="btn-outline text-center text-sm py-2 flex items-center justify-center gap-1">
                   <LogOut size={13} /> Logout
                 </button>
               </>
             ) : (
-              <>
+              <div className="flex gap-3">
                 <Link href="/login"   className="btn-outline flex-1 text-center text-sm py-2" onClick={() => setMobileOpen(false)}>Login</Link>
                 <Link href="/booking" className="btn-primary flex-1 text-center text-sm py-2" onClick={() => setMobileOpen(false)}>Book Now</Link>
-              </>
+              </div>
             )}
           </div>
         </div>
