@@ -316,33 +316,54 @@ export default function AdminDashboard() {
 
         {/* DOCTORS TAB */}
         {tab === 'doctors' && (
-          <div className="bg-white rounded-2xl border border-slate-100 shadow-sm overflow-hidden">
-            <div className="overflow-x-auto">
-              <table className="w-full text-sm">
-                <thead className="bg-slate-50 text-slate-500 text-xs uppercase">
-                  <tr>
-                    <th className="text-left px-6 py-3">Name</th>
-                    <th className="text-left px-6 py-3">Email</th>
-                    <th className="text-left px-6 py-3">Specialization</th>
-                    <th className="text-left px-6 py-3">Status</th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-slate-50">
-                  {doctors.map(d => (
-                    <tr key={d.id} className="hover:bg-slate-50 transition-colors">
-                      <td className="px-6 py-4 font-medium text-slate-800">{d.name}</td>
-                      <td className="px-6 py-4 text-slate-600">{d.email}</td>
-                      <td className="px-6 py-4 text-slate-600">{d.specialization}</td>
-                      <td className="px-6 py-4">
-                        <span className={`px-2 py-1 rounded-full text-xs font-medium ${statusColor(d.isApproved)}`}>
-                          {d.isApproved}
-                        </span>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
+          <div className="space-y-3">
+            {doctors.map(d => (
+              <div key={d.id} className="bg-white rounded-2xl border border-slate-100 shadow-sm p-6">
+                <div className="flex flex-wrap items-start justify-between gap-4">
+                  <div className="space-y-1">
+                    <div className="flex items-center gap-3">
+                      <div className="w-10 h-10 bg-blue-50 rounded-xl flex items-center justify-center font-bold text-blue-700 text-sm">
+                        {d.name?.charAt(0)}
+                      </div>
+                      <div>
+                        <div className="font-semibold text-blue-900">{d.name}</div>
+                        <div className="text-xs text-slate-400">{d.email}</div>
+                      </div>
+                    </div>
+                    <div className="text-sm text-slate-600 ml-1">
+                      <span className="font-medium">Specialization:</span> {d.specialization || '—'}
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <span className={`px-3 py-1 rounded-full text-xs font-medium ${statusColor(d.isApproved)}`}>
+                      {d.isApproved}
+                    </span>
+                    {d.isApproved === 'pending' && (
+                      <div className="flex gap-2">
+                        <button
+                          onClick={async () => {
+                            await apiFetch(`/api/admin/doctors/${d.id}/approve`, { method: 'PATCH' })
+                            setDoctors(prev => prev.map(doc => doc.id === d.id ? { ...doc, isApproved: 'approved' } : doc))
+                          }}
+                          className="bg-green-600 hover:bg-green-700 text-white text-xs px-3 py-1.5 rounded-lg font-medium transition-colors"
+                        >
+                          ✓ Approve
+                        </button>
+                        <button
+                          onClick={async () => {
+                            await apiFetch(`/api/admin/doctors/${d.id}/reject`, { method: 'PATCH' })
+                            setDoctors(prev => prev.map(doc => doc.id === d.id ? { ...doc, isApproved: 'cancelled' } : doc))
+                          }}
+                          className="bg-red-100 hover:bg-red-200 text-red-700 text-xs px-3 py-1.5 rounded-lg font-medium transition-colors"
+                        >
+                          ✕ Reject
+                        </button>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              </div>
+            ))}
           </div>
         )}
 

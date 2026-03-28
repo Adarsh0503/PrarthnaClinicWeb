@@ -33,7 +33,16 @@ export default function LoginPage() {
       localStorage.setItem('user', JSON.stringify(userData))
       window.dispatchEvent(new Event('auth-change'))
       toast.success('Login successful!')
-      window.location.href = '/'
+
+      // Redirect based on role
+      const role = userData.role?.toLowerCase()
+      if (role === 'admin') {
+        window.location.href = '/admin'
+      } else if (role === 'doctor') {
+        window.location.href = '/doctor/dashboard'
+      } else {
+        window.location.href = '/'
+      }
     } catch (err: unknown) {
       const msg = (err as { response?: { data?: { message?: string } } })?.response?.data?.message || 'Login failed. Please try again.'
       toast.error(msg)
@@ -77,7 +86,35 @@ export default function LoginPage() {
             </button>
           </form>
 
-          <p className="text-center text-sm text-slate-400 mt-6">
+          <div className="mt-6 pt-5 border-t border-slate-100">
+            <p className="text-xs text-slate-400 text-center mb-3">Quick login</p>
+            <div className="grid grid-cols-3 gap-2">
+              {[
+                { label: 'Admin',     email: 'admin@prartnaclinic.in',    password: 'Admin@123' },
+                { label: 'Dr. Paritosh', email: 'paritosh@prartnaclinic.in', password: 'Doctor@123' },
+                { label: 'Dr. Rajni', email: 'rajni@prartnaclinic.in',    password: 'Doctor@123' },
+              ].map(({ label, email, password }) => (
+                <button
+                  key={label}
+                  type="button"
+                  onClick={() => {
+                    const emailInput = document.querySelector('input[type="email"]') as HTMLInputElement
+                    const passInput  = document.querySelector('input[type="password"], input[type="text"]') as HTMLInputElement
+                    if (emailInput) emailInput.value = email
+                    if (passInput)  passInput.value  = password
+                    // trigger react-hook-form
+                    emailInput?.dispatchEvent(new Event('input', { bubbles: true }))
+                    passInput?.dispatchEvent(new Event('input', { bubbles: true }))
+                  }}
+                  className="text-xs bg-blue-50 hover:bg-blue-100 text-blue-700 rounded-lg py-2 px-2 transition-colors text-center"
+                >
+                  {label}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          <p className="text-center text-sm text-slate-400 mt-5">
             Don&apos;t have an account?{' '}
             <Link href="/register" className="text-blue-600 font-semibold hover:underline">Register here</Link>
           </p>
