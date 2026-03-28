@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
@@ -30,12 +30,23 @@ const timeSlots = ['11:00 AM', '12:00 PM', '2:00 PM', '3:00 PM', '4:00 PM', '5:0
 export default function BookingPage() {
   const [submitted, setSubmitted] = useState(false)
   const [loading,   setLoading]   = useState(false)
+  const [isLoggedIn, setIsLoggedIn] = useState(false)
+
+  useEffect(() => {
+    const token = localStorage.getItem('token')
+    setIsLoggedIn(!!token)
+  }, [])
 
   const { register, handleSubmit, formState: { errors } } = useForm<FormData>({
     resolver: zodResolver(schema),
   })
 
   const onSubmit = async (data: FormData) => {
+    if (!isLoggedIn) {
+      toast.error('Please login first to book an appointment')
+      setTimeout(() => { window.location.href = '/login' }, 1500)
+      return
+    }
     setLoading(true)
     try {
       await bookingAPI.create({
@@ -47,10 +58,14 @@ export default function BookingPage() {
         phone:           data.phone,
       })
       setSubmitted(true)
-    } catch {
-      // If not logged in, show success toast anyway for demo
-      toast.success('Appointment request received! We\'ll confirm within 2 hours.')
-      setSubmitted(true)
+    } catch (err: unknown) {
+      const status = (err as { response?: { status?: number } })?.response?.status
+      if (status === 403 || status === 401) {
+        toast.error('Session expired. Please login again.')
+        setTimeout(() => { window.location.href = '/login' }, 1500)
+      } else {
+        toast.error('Something went wrong. Please try again.')
+      }
     } finally {
       setLoading(false)
     }
@@ -75,11 +90,20 @@ export default function BookingPage() {
     <div className="min-h-screen bg-slate-50">
       <div className="bg-blue-800 py-16 px-6 text-center text-white">
         <h1 className="font-serif text-5xl font-bold mb-3">Book an Appointment</h1>
-        <p className="text-white/70">We'll confirm your slot within 2 hours via call or WhatsApp.</p>
+        <p className="text-white/70">We&apos;ll confirm your slot within 2 hours via call or WhatsApp.</p>
       </div>
 
-      <div className="max-w-5xl mx-auto px-6 py-16 grid grid-cols-1 lg:grid-cols-3 gap-10">
+      {!isLoggedIn && (
+        <div className="max-w-5xl mx-auto px-6 pt-8">
+          <div className="bg-yellow-50 border border-yellow-200 rounded-2xl p-4 text-center">
+            <p className="text-yellow-800 text-sm font-medium">
+              Please <a href="/login" className="underline font-bold">login</a> or <a href="/register" className="underline font-bold">register</a> to book an appointment.
+            </p>
+          </div>
+        </div>
+      )}
 
+      <div className="max-w-5xl mx-auto px-6 py-16 grid grid-cols-1 lg:grid-cols-3 gap-10">
         {/* Info sidebar */}
         <div className="space-y-4">
           {[
