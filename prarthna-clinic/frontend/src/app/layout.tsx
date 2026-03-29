@@ -22,10 +22,16 @@ export const metadata: Metadata = {
   description:
     'Expert multispeciality healthcare — complete dental and medical care for families across Delhi and Faridabad since 1994.',
   keywords: 'clinic, dental, health, Faridabad, Delhi, doctor, appointment',
+  icons: {
+    icon: '/images/logo.png',
+    apple: '/images/logo.png',
+    shortcut: '/images/logo.png',
+  },
   openGraph: {
     title: 'Prarthna Multispeciality Clinic',
     description: 'Complete Dental And Health Care — Tigri Colony Delhi & Faridabad',
     type: 'website',
+    images: ['/images/logo.png'],
   },
 }
 
