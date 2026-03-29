@@ -268,7 +268,7 @@ export default function Navbar() {
       <div className="bg-blue-800 text-white text-xs py-1.5 px-6 flex justify-between items-center">
         <span>Mon–Sat: 11AM–7PM &nbsp;|&nbsp; Sun: 11AM–2PM</span>
         <span className="flex items-center gap-1.5">
-          <Phone size={11} /> +91-95997-52226
+          <Phone size={11} /> +91-129-400-0000
         </span>
       </div>
 
@@ -327,15 +327,24 @@ export default function Navbar() {
                       <div className="text-sm font-medium text-blue-900 truncate">{authUser.name}</div>
                       <div className="text-xs text-slate-400 truncate">{authUser.email}</div>
                     </div>
-                    {dashboardLink && (
-                      <Link
-                        href={dashboardLink.href}
-                        onClick={() => setDropdownOpen(false)}
-                        className="flex items-center gap-2 px-4 py-2.5 text-sm text-slate-700 hover:bg-blue-50 hover:text-blue-700 transition-colors"
-                      >
-                        {dashboardLink.label}
-                      </Link>
-                    )}
+                   {dashboardLink && (
+  <Link
+    href={dashboardLink.href}
+    onClick={() => setDropdownOpen(false)}
+    className="flex items-center gap-2 px-4 py-2.5 text-sm text-slate-700 hover:bg-blue-50 hover:text-blue-700 transition-colors"
+  >
+    {dashboardLink.label}
+  </Link>
+)}
+{authUser?.role?.toLowerCase() === 'doctor' && (
+  <Link
+    href="/doctor/profile"
+    onClick={() => setDropdownOpen(false)}
+    className="flex items-center gap-2 px-4 py-2.5 text-sm text-slate-700 hover:bg-blue-50 hover:text-blue-700 transition-colors"
+  >
+    Edit Profile
+  </Link>
+)}
                     <button
                       onClick={handleLogout}
                       className="w-full flex items-center gap-2 px-4 py-2.5 text-sm text-red-600 hover:bg-red-50 transition-colors"
@@ -345,7 +354,9 @@ export default function Navbar() {
                   </div>
                 )}
               </div>
-              <Link href="/booking" className="btn-primary text-sm py-2 px-5">Book Appointment</Link>
+              {authUser.role?.toLowerCase() === 'patient' && (
+                <Link href="/booking" className="btn-primary text-sm py-2 px-5">Book Appointment</Link>
+              )}
             </>
           ) : (
             <>

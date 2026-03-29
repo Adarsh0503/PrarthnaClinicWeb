@@ -31,7 +31,7 @@ export default function Footer() {
               <span className="font-serif text-xl font-bold">Prarthna Clinic</span>
             </div>
             <p className="text-sm text-white/55 leading-relaxed mb-5">
-              Expert multispeciality healthcare — complete dental and medical care for families across Delhi and Faridabad since 1994.
+              Expert multispeciality healthcare — complete dental and medical care for families across Delhi and Faridabad since 2011.
             </p>
             <div className="flex gap-2">
               {['f', 'in', 'ig', 'yt'].map((s) => (
