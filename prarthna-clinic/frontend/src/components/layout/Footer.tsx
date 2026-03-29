@@ -94,10 +94,27 @@ export default function Footer() {
           </div>
         </div>
 
-        <div className="border-t border-white/10 pt-6 flex flex-col md:flex-row justify-between gap-2 text-xs text-white/30">
+        {/* <div className="border-t border-white/10 pt-6 flex flex-col md:flex-row justify-between gap-2 text-xs text-white/30">
           <span>© {new Date().getFullYear()} Prarthna Multispeciality Clinic. All rights reserved.</span>
           <span>G-1916 Tigri Colony, New Delhi · Faridabad, Haryana</span>
-        </div>
+        </div> */}
+
+        
+        <div className="border-t border-white/10 pt-6 flex flex-col md:flex-row justify-between gap-2 text-xs text-white/30">
+  <span>© {new Date().getFullYear()} Prarthna Multispeciality Clinic. All rights reserved.</span>
+  <span>
+    Designed & Developed by{' '}
+    
+      <a href="https://github.com/Adarsh0503"
+      target="_blank"
+      rel="noopener noreferrer"
+      className="text-white/50 hover:text-blue-300 transition-colors font-medium"
+    >
+      Adarsh Gaurav
+    </a>
+  </span>
+</div>
+
       </div>
     </footer>
   )

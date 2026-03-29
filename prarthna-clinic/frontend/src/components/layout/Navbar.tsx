@@ -268,7 +268,7 @@ export default function Navbar() {
       <div className="bg-blue-800 text-white text-xs py-1.5 px-6 flex justify-between items-center">
         <span>Mon–Sat: 11AM–7PM &nbsp;|&nbsp; Sun: 11AM–2PM</span>
         <span className="flex items-center gap-1.5">
-          <Phone size={11} /> +91-129-400-0000
+          <Phone size={11} /> +91-9599-75-2226
         </span>
       </div>
 
