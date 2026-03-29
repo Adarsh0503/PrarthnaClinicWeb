@@ -14,7 +14,7 @@ export default function HeroSection() {
         <div className="animate-fade-up">
           <div className="inline-flex items-center gap-2 bg-white/10 border border-white/20 text-white/90 text-xs font-medium px-4 py-1.5 rounded-full mb-6">
             <span className="w-1.5 h-1.5 bg-blue-300 rounded-full inline-block" />
-            Trusted Healthcare Since 1994 · Tigri Delhi & Faridabad
+            Trusted Healthcare Since 2011 · Tigri Delhi & Faridabad
           </div>
 
           <h1 className="font-serif text-5xl lg:text-6xl font-bold text-white leading-tight mb-5">
@@ -40,7 +40,7 @@ export default function HeroSection() {
           {/* Stats */}
           <div className="flex gap-10">
             {[
-              { num: '30+',   label: 'Years of Care' },
+              { num: '15+',   label: 'Years of Care' },
               { num: '5000+', label: 'Patients Treated' },
               { num: '100%',  label: 'Satisfaction' },
             ].map(({ num, label }) => (

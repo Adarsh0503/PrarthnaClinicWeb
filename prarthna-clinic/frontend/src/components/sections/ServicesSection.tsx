@@ -4,8 +4,8 @@ import { ArrowRight } from 'lucide-react'
 const services = [
   { icon: '🦷', title: 'Complete Dental Care',    desc: 'Fillings, root canals, scaling, braces, implants, and cosmetic dentistry by Dr. Rajni Mishra.' },
   { icon: '🩺', title: 'General Medicine',         desc: 'Comprehensive diagnosis and treatment of acute/chronic conditions, fever, infections, BP & diabetes.' },
-  { icon: '🩻', title: 'Radiology & Imaging',     desc: 'Digital X-rays and on-site imaging services with fast, accurate diagnostic reports.' },
-  { icon: '🫀', title: 'Cardiac Screening',       desc: 'ECG, BP monitoring, lipid profiles, and cardiac risk assessment for preventive care.' },
+  // { icon: '🩻', title: 'Radiology & Imaging',     desc: 'Digital X-rays and on-site imaging services with fast, accurate diagnostic reports.' },
+  // { icon: '🫀', title: 'Cardiac Screening',       desc: 'ECG, BP monitoring, lipid profiles, and cardiac risk assessment for preventive care.' },
   { icon: '🤱', title: "Women's Health",           desc: 'Gynaecology consultations, prenatal care, and women\'s wellness in a comfortable environment.' },
   { icon: '💉', title: 'Lab & Diagnostics',       desc: 'In-house blood tests, HbA1c, thyroid, and health checkup packages at affordable rates.' },
 ]

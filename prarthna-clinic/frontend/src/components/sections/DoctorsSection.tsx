@@ -7,7 +7,7 @@ const doctors = [
     id: 1,
     name: 'Dr. Paritosh Mishra',
     spec: 'MBBS · Senior Physician & Founder',
-    hospital: 'Sun Rise Hospital, Faridabad',
+    hospital: 'Dr Paritosh Clinic, Faridabad',
     patients: '2000+',
     rating: '4.9',
     exp: '20+ yrs',

@@ -57,9 +57,9 @@ export default function FaqSection() {
             </p>
 
             {[
-              { icon: Phone,          label: '+91-129-400-0000',    sub: 'Reception · Both Locations' },
+              { icon: Phone,          label: '+91-95997-52226',    sub: 'Reception · Both Locations' },
               { icon: MessageCircle,  label: 'WhatsApp Available',  sub: 'Quick response guaranteed' },
-              { icon: Mail,           label: 'care@prartnaclinic.in', sub: 'Reply within 2 hours' },
+              { icon: Mail,           label: 'parit1605@gmail.com', sub: 'Reply within 2 hours' },
             ].map(({ icon: Icon, label, sub }) => (
               <div key={label} className="flex items-center gap-4 mb-5">
                 <div className="w-10 h-10 bg-white/10 rounded-xl flex items-center justify-center shrink-0">

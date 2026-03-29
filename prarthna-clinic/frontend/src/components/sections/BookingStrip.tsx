@@ -13,7 +13,7 @@ export default function BookingStrip() {
             <option className="text-blue-900 bg-white">Select Specialty</option>
             <option className="text-blue-900 bg-white">General Medicine</option>
             <option className="text-blue-900 bg-white">Dental Care</option>
-            <option className="text-blue-900 bg-white">Radiology</option>
+            {/* <option className="text-blue-900 bg-white">Radiology</option> */}
           </select>
           <select className="bg-white/15 border border-white/30 text-white px-5 py-3 rounded-full text-sm min-w-[180px] cursor-pointer">
             <option className="text-blue-900 bg-white">Select Doctor</option>

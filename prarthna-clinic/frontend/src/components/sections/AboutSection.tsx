@@ -29,7 +29,7 @@ export default function AboutSection() {
 
           {/* Badge bottom-right */}
           <div className="absolute -bottom-5 -right-5 bg-blue-800 text-white rounded-2xl px-6 py-5 text-center shadow-2xl">
-            <div className="font-serif text-4xl font-bold text-blue-200">30+</div>
+            <div className="font-serif text-4xl font-bold text-blue-200">15+</div>
             <div className="text-xs text-white/60 mt-1">Years of Trusted<br />Care</div>
           </div>
 
@@ -37,7 +37,7 @@ export default function AboutSection() {
           <div className="absolute -top-4 -left-4 bg-white border border-blue-100 rounded-2xl px-5 py-4 shadow-xl flex items-center gap-3">
             <div className="w-10 h-10 bg-blue-50 rounded-xl flex items-center justify-center text-lg">🏆</div>
             <div>
-              <div className="text-sm font-bold text-blue-900">Est. 1994</div>
+              <div className="text-sm font-bold text-blue-900">Est. 2011</div>
               <div className="text-xs text-slate-400">Serving Delhi NCR</div>
             </div>
           </div>
@@ -68,12 +68,12 @@ export default function AboutSection() {
               {
                 label: 'Tigri Colony, Delhi',
                 addr: 'G-1916, Mehrauli Badarpur Road, Tigri Colony, Sangam Vihar, New Delhi – 110080',
-                href: 'https://www.google.com/maps/place/PRARTHNA+MULTISPECIALITY+CLINIC',
+                href: 'https://maps.app.goo.gl/F3tANFnsnATYQiyJA',
               },
               {
                 label: 'Faridabad, Haryana',
-                addr: 'Sun Rise Hospital, Sector 15, Faridabad, Haryana – 121007',
-                href: 'https://maps.app.goo.gl/YvacsNo75eUMf6647',
+                addr: 'Dr Paritosh Clinic, Sector 42, Faridabad, Haryana – 121010',
+                href: 'https://maps.app.goo.gl/xnkMpb11KmNpU7Uu5',
               },
             ].map(({ label, addr, href }) => (
               <div key={label} className="bg-slate-50 border border-blue-100 rounded-2xl p-5">
