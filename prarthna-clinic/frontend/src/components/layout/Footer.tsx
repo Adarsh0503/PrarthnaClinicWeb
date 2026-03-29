@@ -76,15 +76,15 @@ export default function Footer() {
               </div>
               <div className="flex gap-2 items-start">
                 <MapPin size={14} className="mt-0.5 text-blue-300 shrink-0" />
-                <span>Sun Rise Hospital, Sector 15, Faridabad – 121007</span>
+                <span>Dr Paritosh Clinic Greenfields Colony, Sector 42, Faridabad – 121010</span>
               </div>
               <div className="flex gap-2 items-center">
                 <Phone size={14} className="text-blue-300 shrink-0" />
-                <span>+91-129-400-0000</span>
+                <span>+91-9599752226</span>
               </div>
               <div className="flex gap-2 items-center">
                 <Mail size={14} className="text-blue-300 shrink-0" />
-                <span>care@prartnaclinic.in</span>
+                <span>parit1605@gmail.com</span>
               </div>
               <div className="flex gap-2 items-center">
                 <Clock size={14} className="text-blue-300 shrink-0" />

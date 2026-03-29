@@ -3,9 +3,9 @@ import Link from 'next/link'
 const services = [
   { icon: '🦷', title: 'Complete Dental Care',   desc: 'Fillings, extractions, root canals, scaling, braces, dental implants, and cosmetic dentistry by Dr. Rajni Mishra. Gentle care for all ages including children.' },
   { icon: '🩺', title: 'General Medicine',        desc: 'Comprehensive diagnosis and treatment of acute and chronic conditions including fever, infections, diabetes, blood pressure, and preventive health checkups.' },
-  { icon: '🩻', title: 'Radiology & Imaging',    desc: 'Digital X-rays and on-site imaging services with fast, accurate diagnostic reports to support clinical decision-making.' },
-  { icon: '🫀', title: 'Cardiac Screening',      desc: 'ECG, blood pressure monitoring, lipid profiles, and cardiac risk assessment for preventive cardiovascular care.' },
-  { icon: '🤱', title: "Women's Health",          desc: 'Gynaecology consultations, prenatal care, family planning, and women\'s wellness in a safe, comfortable environment.' },
+  // { icon: '🩻', title: 'Radiology & Imaging',    desc: 'Digital X-rays and on-site imaging services with fast, accurate diagnostic reports to support clinical decision-making.' },
+  // { icon: '🫀', title: 'Cardiac Screening',      desc: 'ECG, blood pressure monitoring, lipid profiles, and cardiac risk assessment for preventive cardiovascular care.' },
+  // { icon: '🤱', title: "Women's Health",          desc: 'Gynaecology consultations, prenatal care, family planning, and women\'s wellness in a safe, comfortable environment.' },
   { icon: '💉', title: 'Lab & Diagnostics',      desc: 'In-house blood tests, urine analysis, HbA1c, thyroid profile, and comprehensive health checkup packages.' },
   { icon: '🧒', title: 'Paediatric Care',        desc: 'Child health check-ups, vaccinations, growth monitoring, and treatment for common childhood illnesses.' },
   { icon: '💊', title: 'Chronic Disease Mgmt',   desc: 'Ongoing management of diabetes, hypertension, asthma, and other chronic conditions with personalised care plans.' },

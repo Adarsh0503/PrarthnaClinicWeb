@@ -38,12 +38,12 @@ export default function ContactPage() {
               {
                 name: 'Tigri Colony, Delhi',
                 addr: 'G-1916, Mehrauli Badarpur Road, Tigri Colony, Sangam Vihar, New Delhi – 110080',
-                href: 'https://www.google.com/maps/place/PRARTHNA+MULTISPECIALITY+CLINIC',
+                href: 'https://www.google.com/maps/place/PRARTHNA+MULTISPECIALITY+CLINIC+-+A+Complete+Dental+And+Health+Care/@28.512448,77.2366677,17z/data=!3m1!4b1!4m6!3m5!1s0x390ce19f191f9de1:0x50c5424cbe369a03!8m2!3d28.5124433!4d77.2392426!16s%2Fg%2F1pp2v0h2p?entry=ttu&g_ep=EgoyMDI2MDMyNC4wIKXMDSoASAFQAw%3D%3D',
               },
               {
                 name: 'Faridabad, Haryana',
-                addr: 'Sun Rise Hospital, Sector 15, Faridabad, Haryana – 121007',
-                href: 'https://maps.app.goo.gl/YvacsNo75eUMf6647',
+                addr: 'Dr Paritosh Clinic, Sector 42, Faridabad, Haryana – 121010',
+                href: 'https://www.google.com/maps/place/Dr+Paritosh+Clinic/@28.4626721,77.2964705,17z/data=!3m1!4b1!4m6!3m5!1s0x390ce7ea1b0f42b1:0x4856b2f162be034a!8m2!3d28.4626674!4d77.2990454!16s%2Fg%2F11hdsxyx49?entry=ttu&g_ep=EgoyMDI2MDMyNC4wIKXMDSoASAFQAw%3D%3D',
               },
             ].map(({ name, addr, href }) => (
               <div key={name} className="bg-white border border-blue-100 rounded-2xl p-5">
