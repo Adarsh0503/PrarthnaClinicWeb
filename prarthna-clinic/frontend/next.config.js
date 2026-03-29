@@ -1,15 +1,12 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   images: {
-    domains: ['localhost'],
-  },
-  async rewrites() {
-    return [
+    remotePatterns: [
       {
-        source: '/api/:path*',
-        destination: 'http://localhost:8080/api/:path*',
+        protocol: 'https',
+        hostname: 'prarthna-clinic-uploads.s3.ap-south-1.amazonaws.com',
       },
-    ]
+    ],
   },
 }
 
