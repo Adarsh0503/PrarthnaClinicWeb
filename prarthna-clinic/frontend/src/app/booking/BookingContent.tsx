@@ -28,6 +28,7 @@ interface Doctor {
   id: number
   name: string
   specialization: string
+  isApproved: string
 }
 
 const timeSlots = ['11:00 AM', '12:00 PM', '2:00 PM', '3:00 PM', '4:00 PM', '5:00 PM', '6:00 PM']
@@ -44,7 +45,7 @@ export default function BookingContent() {
   })
 
   useEffect(() => {
-    // Check login status
+    // Check login
     const token = localStorage.getItem('token')
     const user  = localStorage.getItem('user')
     if (token && user) {
@@ -54,17 +55,17 @@ export default function BookingContent() {
       setIsLoggedIn(false)
     }
 
-    // Fetch doctors from API
+    // Fetch doctors then pre-select
     fetch(`${API}/api/doctors`)
       .then(r => r.json())
       .then(data => {
-        const approved = (data.data || []).filter((d: Doctor & { isApproved: string }) => d.isApproved === 'approved')
+        const approved = (data.data || []).filter((d: Doctor) => d.isApproved === 'approved')
         setDoctors(approved)
 
-        // Pre-select doctor from URL param
+        // Pre-select AFTER doctors are loaded
         const doctorId = searchParams.get('doctorId')
         if (doctorId) {
-          setValue('doctorId', doctorId)
+          setValue('doctorId', doctorId, { shouldValidate: true })
         }
       })
       .catch(console.error)
@@ -95,7 +96,6 @@ export default function BookingContent() {
     }
   }
 
-  // Success screen
   if (submitted) {
     return (
       <div className="min-h-screen bg-slate-50 flex items-center justify-center px-6">
@@ -103,7 +103,7 @@ export default function BookingContent() {
           <div className="text-6xl mb-4">✅</div>
           <h2 className="font-serif text-3xl font-bold text-blue-900 mb-3">Appointment Requested!</h2>
           <p className="text-slate-500 text-sm leading-relaxed mb-6">
-            Thank you! Our team will contact you within 2 hours to confirm your appointment slot via call or WhatsApp.
+            Thank you! Our team will contact you within 2 hours to confirm via call or WhatsApp.
           </p>
           <div className="flex gap-3 justify-center">
             <a href="/patient/dashboard" className="btn-outline inline-block text-sm px-6">View Bookings</a>
@@ -114,7 +114,6 @@ export default function BookingContent() {
     )
   }
 
-  // Loading auth check
   if (isLoggedIn === null) {
     return (
       <div className="min-h-screen bg-slate-50 flex items-center justify-center">
@@ -123,7 +122,6 @@ export default function BookingContent() {
     )
   }
 
-  // Not logged in — show login wall BEFORE the form
   if (!isLoggedIn) {
     return (
       <div className="min-h-screen bg-slate-50">
@@ -139,16 +137,9 @@ export default function BookingContent() {
               Please login or create an account to book an appointment with our doctors.
             </p>
             <div className="flex flex-col gap-3">
-              <Link href="/login" className="btn-primary w-full py-3 text-center">
-                Login to Continue
-              </Link>
-              <Link href="/register" className="btn-outline w-full py-3 text-center">
-                Create New Account
-              </Link>
+              <Link href="/login" className="btn-primary w-full py-3 text-center">Login to Continue</Link>
+              <Link href="/register" className="btn-outline w-full py-3 text-center">Create New Account</Link>
             </div>
-            <p className="text-xs text-slate-400 mt-6">
-              Already have an account? Login to access your dashboard and manage bookings.
-            </p>
           </div>
         </div>
       </div>
@@ -163,7 +154,6 @@ export default function BookingContent() {
       </div>
 
       <div className="max-w-5xl mx-auto px-6 py-16 grid grid-cols-1 lg:grid-cols-3 gap-10">
-        {/* Info sidebar */}
         <div className="space-y-4">
           {[
             { icon: User,         title: 'Personalised Care',  desc: 'Tell us your concern and we\'ll match you with the right doctor.' },
@@ -183,7 +173,6 @@ export default function BookingContent() {
           ))}
         </div>
 
-        {/* Form */}
         <div className="lg:col-span-2 bg-white rounded-3xl p-8 border border-blue-100 shadow-sm">
           <h2 className="font-serif text-2xl font-bold text-blue-900 mb-6">Fill in Your Details</h2>
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
@@ -237,12 +226,9 @@ export default function BookingContent() {
 
             <div>
               <label className="label">Reason for Visit</label>
-              <textarea
-                {...register('reason')}
-                rows={4}
+              <textarea {...register('reason')} rows={4}
                 placeholder="Briefly describe your symptoms or concern..."
-                className="input-field resize-none"
-              />
+                className="input-field resize-none" />
               {errors.reason && <p className="text-red-500 text-xs mt-1">{errors.reason.message}</p>}
             </div>
 
