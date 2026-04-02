@@ -7,7 +7,7 @@ const values = [
   { icon: Award,   title: 'Clinical Excellence',  desc: 'Our doctors are highly qualified and stay updated with the latest medical practices.' },
   { icon: Users,   title: 'Community First',      desc: 'Rooted in Tigri Colony since 2011, we serve the healthcare needs of our neighbourhood.' },
   { icon: Clock,   title: 'Accessible Timings',   desc: 'Open 6 days a week with Sunday morning hours — healthcare when you need it.' },
-]
+] 
 
 export default function AboutPage() {
   return (
@@ -45,7 +45,7 @@ export default function AboutPage() {
             </p>
             <div className="grid grid-cols-3 gap-6">
               {[
-                { num: '30+',   lbl: 'Years' },
+                { num: '15+',   lbl: 'Years' },
                 { num: '5000+', lbl: 'Patients' },
                 { num: '2',     lbl: 'Locations' },
               ].map(({ num, lbl }) => (

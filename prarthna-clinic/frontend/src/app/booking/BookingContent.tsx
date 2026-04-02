@@ -1,9 +1,6 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { useForm } from 'react-hook-form'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { z } from 'zod'
 import { useSearchParams } from 'next/navigation'
 import toast from 'react-hot-toast'
 import { bookingAPI } from '@/lib/api'
@@ -11,18 +8,6 @@ import { CalendarDays, Clock, User, Stethoscope } from 'lucide-react'
 import Link from 'next/link'
 
 const API = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8080'
-
-const schema = z.object({
-  firstName: z.string().min(1, 'Required'),
-  lastName:  z.string().min(1, 'Required'),
-  phone:     z.string().min(10, 'Enter valid phone'),
-  doctorId:  z.string().min(1, 'Select a doctor'),
-  date:      z.string().min(1, 'Select a date'),
-  timeSlot:  z.string().min(1, 'Select a time'),
-  reason:    z.string().min(5, 'Please describe your concern'),
-})
-
-type FormData = z.infer<typeof schema>
 
 interface Doctor {
   id: number
@@ -35,52 +20,72 @@ const timeSlots = ['11:00 AM', '12:00 PM', '2:00 PM', '3:00 PM', '4:00 PM', '5:0
 
 export default function BookingContent() {
   const searchParams = useSearchParams()
+  const preselectedDoctorId = searchParams.get('doctorId') || ''
+
   const [submitted, setSubmitted]   = useState(false)
   const [loading, setLoading]       = useState(false)
   const [isLoggedIn, setIsLoggedIn] = useState<boolean | null>(null)
   const [doctors, setDoctors]       = useState<Doctor[]>([])
 
-  const { register, handleSubmit, setValue, formState: { errors } } = useForm<FormData>({
-    resolver: zodResolver(schema),
-  })
+  // Form state (controlled)
+  const [firstName, setFirstName] = useState('')
+  const [lastName,  setLastName]  = useState('')
+  const [phone,     setPhone]     = useState('')
+  const [doctorId,  setDoctorId]  = useState(preselectedDoctorId)
+  const [date,      setDate]      = useState('')
+  const [timeSlot,  setTimeSlot]  = useState('')
+  const [reason,    setReason]    = useState('')
+  const [errors,    setErrors]    = useState<Record<string, string>>({})
 
   useEffect(() => {
-    // Check login
     const token = localStorage.getItem('token')
     const user  = localStorage.getItem('user')
     if (token && user) {
       const u = JSON.parse(user)
-      setIsLoggedIn(u.role?.toLowerCase() === 'patient')
+      const role = u.role?.toLowerCase()
+      setIsLoggedIn(role === 'patient' || role === 'admin')
     } else {
       setIsLoggedIn(false)
     }
 
-    // Fetch doctors then pre-select
     fetch(`${API}/api/doctors`)
       .then(r => r.json())
       .then(data => {
         const approved = (data.data || []).filter((d: Doctor) => d.isApproved === 'approved')
         setDoctors(approved)
-
-        // Pre-select AFTER doctors are loaded
-        const doctorId = searchParams.get('doctorId')
-        if (doctorId) {
-          setValue('doctorId', doctorId, { shouldValidate: true })
+        // Set doctorId after doctors load if URL param exists
+        if (preselectedDoctorId) {
+          setDoctorId(preselectedDoctorId)
         }
       })
       .catch(console.error)
-  }, [searchParams, setValue])
+  }, [preselectedDoctorId])
 
-  const onSubmit = async (data: FormData) => {
+  const validate = () => {
+    const e: Record<string, string> = {}
+    if (!firstName.trim()) e.firstName = 'Required'
+    if (!lastName.trim())  e.lastName  = 'Required'
+    if (phone.length < 10) e.phone     = 'Enter valid phone'
+    if (!doctorId)         e.doctorId  = 'Select a doctor'
+    if (!date)             e.date      = 'Select a date'
+    if (!timeSlot)         e.timeSlot  = 'Select a time'
+    if (reason.length < 5) e.reason    = 'Please describe your concern'
+    setErrors(e)
+    return Object.keys(e).length === 0
+  }
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+    if (!validate()) return
     setLoading(true)
     try {
       await bookingAPI.create({
-        doctorId:        Number(data.doctorId),
-        appointmentDate: data.date,
-        timeSlot:        data.timeSlot,
-        reason:          data.reason,
-        patientName:     `${data.firstName} ${data.lastName}`,
-        phone:           data.phone,
+        doctorId:        Number(doctorId),
+        appointmentDate: date,
+        timeSlot,
+        reason,
+        patientName:     `${firstName} ${lastName}`,
+        phone,
       })
       setSubmitted(true)
     } catch (err: unknown) {
@@ -123,6 +128,7 @@ export default function BookingContent() {
   }
 
   if (!isLoggedIn) {
+    const returnUrl = `/booking${preselectedDoctorId ? `?doctorId=${preselectedDoctorId}` : ''}`
     return (
       <div className="min-h-screen bg-slate-50">
         <div className="bg-blue-800 py-16 px-6 text-center text-white">
@@ -137,8 +143,12 @@ export default function BookingContent() {
               Please login or create an account to book an appointment with our doctors.
             </p>
             <div className="flex flex-col gap-3">
-              <Link href="/login" className="btn-primary w-full py-3 text-center">Login to Continue</Link>
-              <Link href="/register" className="btn-outline w-full py-3 text-center">Create New Account</Link>
+              <Link href={`/login?redirect=${encodeURIComponent(returnUrl)}`} className="btn-primary w-full py-3 text-center">
+                Login to Continue
+              </Link>
+              <Link href="/register" className="btn-outline w-full py-3 text-center">
+                Create New Account
+              </Link>
             </div>
           </div>
         </div>
@@ -175,29 +185,29 @@ export default function BookingContent() {
 
         <div className="lg:col-span-2 bg-white rounded-3xl p-8 border border-blue-100 shadow-sm">
           <h2 className="font-serif text-2xl font-bold text-blue-900 mb-6">Fill in Your Details</h2>
-          <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
+          <form onSubmit={handleSubmit} className="space-y-5">
             <div className="grid grid-cols-2 gap-4">
               <div>
                 <label className="label">First Name</label>
-                <input {...register('firstName')} placeholder="Rahul" className="input-field" />
-                {errors.firstName && <p className="text-red-500 text-xs mt-1">{errors.firstName.message}</p>}
+                <input value={firstName} onChange={e => setFirstName(e.target.value)} placeholder="Rahul" className="input-field" />
+                {errors.firstName && <p className="text-red-500 text-xs mt-1">{errors.firstName}</p>}
               </div>
               <div>
                 <label className="label">Last Name</label>
-                <input {...register('lastName')} placeholder="Sharma" className="input-field" />
-                {errors.lastName && <p className="text-red-500 text-xs mt-1">{errors.lastName.message}</p>}
+                <input value={lastName} onChange={e => setLastName(e.target.value)} placeholder="Sharma" className="input-field" />
+                {errors.lastName && <p className="text-red-500 text-xs mt-1">{errors.lastName}</p>}
               </div>
             </div>
 
             <div>
               <label className="label">Phone Number</label>
-              <input {...register('phone')} type="tel" placeholder="+91 98765 00000" className="input-field" />
-              {errors.phone && <p className="text-red-500 text-xs mt-1">{errors.phone.message}</p>}
+              <input value={phone} onChange={e => setPhone(e.target.value)} type="tel" placeholder="+91 98765 00000" className="input-field" />
+              {errors.phone && <p className="text-red-500 text-xs mt-1">{errors.phone}</p>}
             </div>
 
             <div>
               <label className="label">Select Doctor</label>
-              <select {...register('doctorId')} className="input-field">
+              <select value={doctorId} onChange={e => setDoctorId(e.target.value)} className="input-field">
                 <option value="">-- Select a Doctor --</option>
                 {doctors.map((d) => (
                   <option key={d.id} value={d.id.toString()}>
@@ -205,31 +215,31 @@ export default function BookingContent() {
                   </option>
                 ))}
               </select>
-              {errors.doctorId && <p className="text-red-500 text-xs mt-1">{errors.doctorId.message}</p>}
+              {errors.doctorId && <p className="text-red-500 text-xs mt-1">{errors.doctorId}</p>}
             </div>
 
             <div className="grid grid-cols-2 gap-4">
               <div>
                 <label className="label">Preferred Date</label>
-                <input {...register('date')} type="date" className="input-field" min={new Date().toISOString().split('T')[0]} />
-                {errors.date && <p className="text-red-500 text-xs mt-1">{errors.date.message}</p>}
+                <input value={date} onChange={e => setDate(e.target.value)} type="date" className="input-field" min={new Date().toISOString().split('T')[0]} />
+                {errors.date && <p className="text-red-500 text-xs mt-1">{errors.date}</p>}
               </div>
               <div>
                 <label className="label">Preferred Time</label>
-                <select {...register('timeSlot')} className="input-field">
+                <select value={timeSlot} onChange={e => setTimeSlot(e.target.value)} className="input-field">
                   <option value="">-- Select Time --</option>
                   {timeSlots.map((t) => <option key={t} value={t}>{t}</option>)}
                 </select>
-                {errors.timeSlot && <p className="text-red-500 text-xs mt-1">{errors.timeSlot.message}</p>}
+                {errors.timeSlot && <p className="text-red-500 text-xs mt-1">{errors.timeSlot}</p>}
               </div>
             </div>
 
             <div>
               <label className="label">Reason for Visit</label>
-              <textarea {...register('reason')} rows={4}
+              <textarea value={reason} onChange={e => setReason(e.target.value)} rows={4}
                 placeholder="Briefly describe your symptoms or concern..."
                 className="input-field resize-none" />
-              {errors.reason && <p className="text-red-500 text-xs mt-1">{errors.reason.message}</p>}
+              {errors.reason && <p className="text-red-500 text-xs mt-1">{errors.reason}</p>}
             </div>
 
             <button type="submit" disabled={loading} className="btn-primary w-full py-4 text-base disabled:opacity-60">
