@@ -777,28 +777,36 @@ export default function AdminDashboard() {
             ))}
           </div>
         )}
-
-        {/* USERS TAB */}
-        {tab === 'users' && (
-          <div className="space-y-4">
-            <div className="flex justify-between items-center">
-              <p className="text-sm text-slate-500">{users.length} users registered</p>
-              <button
-                onClick={() => {
-                  const headers = ['ID', 'Name', 'Email', 'Phone', 'Role']
-                  const rows = users.map(u => [u.id, u.name, u.email, u.phone || '', u.role])
-                  const csv = [headers, ...rows].map(r => r.join(',')).join('\n')
-                  const blob = new Blob([csv], { type: 'text/csv' })
-                  const url = URL.createObjectURL(blob)
-                  const a = document.createElement('a')
-                  a.href = url
-                  a.download = `prarthna-patients-${new Date().toISOString().split('T')[0]}.csv`
-                  a.click()
-                  URL.revokeObjectURL(url)
-                }}
-                className="flex items-center gap-2 bg-green-600 hover:bg-green-700 text-white text-sm px-4 py-2 rounded-xl font-medium transition-colors"
-              >
-                ⬇ Download CSV
+{/* USERS TAB */}
+{tab === 'users' && (
+  <div className="space-y-4">
+    <div className="flex justify-between items-center">
+      <p className="text-sm text-slate-500">{users.length} users registered</p>
+      <button
+        onClick={() => {
+          const escape = (val: unknown) => {
+            const str = String(val ?? '')
+            return `"${str.replace(/"/g, '""')}"`
+          }
+          const headers = ['ID', 'Name', 'Email', 'Phone', 'Role']
+          const rows = users.map(u => [
+            u.id,
+            escape(u.name),
+            escape(u.email),
+            escape(u.phone || ''),   // ← quoted so Excel treats as text
+            escape(u.role),
+          ])
+          const csv = [headers.join(','), ...rows.map(r => r.join(','))].join('\n')
+          const blob = new Blob(['\uFEFF' + csv], { type: 'text/csv;charset=utf-8;' })
+          const url = URL.createObjectURL(blob)
+          const a = document.createElement('a')
+          a.href = url
+          a.download = `prarthna-patients-${new Date().toISOString().split('T')[0]}.csv`
+          a.click()
+          URL.revokeObjectURL(url)
+        }}
+        className="flex items-center gap-2 bg-green-600 hover:bg-green-700 text-white text-sm px-4 py-2 rounded-xl font-medium transition-colors"
+      >           ⬇ Download CSV
               </button>
             </div>
             <div className="bg-white rounded-2xl border border-slate-100 shadow-sm overflow-hidden">
