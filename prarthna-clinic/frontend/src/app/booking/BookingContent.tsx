@@ -9,25 +9,23 @@ import Link from 'next/link'
 
 const API = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8080'
 
-interface Doctor {
-  id: number
-  name: string
-  specialization: string
-  isApproved: string
-}
+interface Doctor  { id: number; name: string; specialization: string; isApproved: string }
+interface Patient { id: number; name: string; email: string; phone: string; role: string }
 
 const timeSlots = ['11:00 AM', '12:00 PM', '2:00 PM', '3:00 PM', '4:00 PM', '5:00 PM', '6:00 PM']
 
 export default function BookingContent() {
-  const searchParams = useSearchParams()
+  const searchParams        = useSearchParams()
   const preselectedDoctorId = searchParams.get('doctorId') || ''
 
-  const [submitted, setSubmitted]   = useState(false)
-  const [loading, setLoading]       = useState(false)
+  const [submitted,  setSubmitted]  = useState(false)
+  const [loading,    setLoading]    = useState(false)
   const [isLoggedIn, setIsLoggedIn] = useState<boolean | null>(null)
-  const [doctors, setDoctors]       = useState<Doctor[]>([])
+  const [isAdmin,    setIsAdmin]    = useState(false)
+  const [doctors,    setDoctors]    = useState<Doctor[]>([])
+  const [patients,   setPatients]   = useState<Patient[]>([])
 
-  // Form state (controlled)
+  // Controlled form state
   const [firstName, setFirstName] = useState('')
   const [lastName,  setLastName]  = useState('')
   const [phone,     setPhone]     = useState('')
@@ -41,9 +39,21 @@ export default function BookingContent() {
     const token = localStorage.getItem('token')
     const user  = localStorage.getItem('user')
     if (token && user) {
-      const u = JSON.parse(user)
+      const u    = JSON.parse(user)
       const role = u.role?.toLowerCase()
       setIsLoggedIn(role === 'patient' || role === 'admin')
+      if (role === 'admin') {
+        setIsAdmin(true)
+        fetch(`${API}/api/admin/users`, { headers: { Authorization: `Bearer ${token}` } })
+          .then(r => r.json())
+          .then(data => {
+            const pts = (data.data || []).filter((p: Patient) =>
+              p.role?.toLowerCase() === 'patient'
+            )
+            setPatients(pts)
+          })
+          .catch(console.error)
+      }
     } else {
       setIsLoggedIn(false)
     }
@@ -53,13 +63,20 @@ export default function BookingContent() {
       .then(data => {
         const approved = (data.data || []).filter((d: Doctor) => d.isApproved === 'approved')
         setDoctors(approved)
-        // Set doctorId after doctors load if URL param exists
-        if (preselectedDoctorId) {
-          setDoctorId(preselectedDoctorId)
-        }
+        if (preselectedDoctorId) setDoctorId(preselectedDoctorId)
       })
       .catch(console.error)
   }, [preselectedDoctorId])
+
+  const handlePatientSelect = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const p = patients.find(p => p.id === Number(e.target.value))
+    if (p) {
+      const parts = p.name.split(' ')
+      setFirstName(parts[0] || '')
+      setLastName(parts.slice(1).join(' ') || '')
+      setPhone(p.phone || '')
+    }
+  }
 
   const validate = () => {
     const e: Record<string, string> = {}
@@ -69,7 +86,7 @@ export default function BookingContent() {
     if (!doctorId)         e.doctorId  = 'Select a doctor'
     if (!date)             e.date      = 'Select a date'
     if (!timeSlot)         e.timeSlot  = 'Select a time'
-    if (reason.length < 5) e.reason    = 'Please describe your concern'
+    if (reason.length < 5) e.reason    = 'Please describe the concern'
     setErrors(e)
     return Object.keys(e).length === 0
   }
@@ -160,6 +177,7 @@ export default function BookingContent() {
     <div className="min-h-screen bg-slate-50">
       <div className="bg-blue-800 py-16 px-6 text-center text-white">
         <h1 className="font-serif text-5xl font-bold mb-3">Book an Appointment</h1>
+        {isAdmin && <p className="text-amber-300 text-sm mt-1">Admin: Booking on behalf of a patient</p>}
         <p className="text-white/70">We'll confirm your slot within 2 hours via call or WhatsApp.</p>
       </div>
 
@@ -184,8 +202,25 @@ export default function BookingContent() {
         </div>
 
         <div className="lg:col-span-2 bg-white rounded-3xl p-8 border border-blue-100 shadow-sm">
-          <h2 className="font-serif text-2xl font-bold text-blue-900 mb-6">Fill in Your Details</h2>
+          <h2 className="font-serif text-2xl font-bold text-blue-900 mb-6">Fill in Details</h2>
           <form onSubmit={handleSubmit} className="space-y-5">
+
+            {/* Admin: select patient */}
+            {isAdmin && patients.length > 0 && (
+              <div className="bg-amber-50 border border-amber-200 rounded-2xl p-4">
+                <label className="label text-amber-800">Select Existing Patient (optional)</label>
+                <select onChange={handlePatientSelect} className="input-field mt-1" defaultValue="">
+                  <option value="">-- Select a registered patient --</option>
+                  {patients.map(p => (
+                    <option key={p.id} value={p.id}>
+                      {p.name} ({p.email})
+                    </option>
+                  ))}
+                </select>
+                <p className="text-xs text-amber-700 mt-1">Selecting a patient auto-fills their details below.</p>
+              </div>
+            )}
+
             <div className="grid grid-cols-2 gap-4">
               <div>
                 <label className="label">First Name</label>
@@ -221,14 +256,15 @@ export default function BookingContent() {
             <div className="grid grid-cols-2 gap-4">
               <div>
                 <label className="label">Preferred Date</label>
-                <input value={date} onChange={e => setDate(e.target.value)} type="date" className="input-field" min={new Date().toISOString().split('T')[0]} />
+                <input value={date} onChange={e => setDate(e.target.value)} type="date" className="input-field"
+                  min={new Date().toISOString().split('T')[0]} />
                 {errors.date && <p className="text-red-500 text-xs mt-1">{errors.date}</p>}
               </div>
               <div>
                 <label className="label">Preferred Time</label>
                 <select value={timeSlot} onChange={e => setTimeSlot(e.target.value)} className="input-field">
                   <option value="">-- Select Time --</option>
-                  {timeSlots.map((t) => <option key={t} value={t}>{t}</option>)}
+                  {timeSlots.map(t => <option key={t} value={t}>{t}</option>)}
                 </select>
                 {errors.timeSlot && <p className="text-red-500 text-xs mt-1">{errors.timeSlot}</p>}
               </div>
@@ -237,7 +273,7 @@ export default function BookingContent() {
             <div>
               <label className="label">Reason for Visit</label>
               <textarea value={reason} onChange={e => setReason(e.target.value)} rows={4}
-                placeholder="Briefly describe your symptoms or concern..."
+                placeholder="Briefly describe symptoms or concern..."
                 className="input-field resize-none" />
               {errors.reason && <p className="text-red-500 text-xs mt-1">{errors.reason}</p>}
             </div>
