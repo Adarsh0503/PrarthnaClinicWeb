@@ -128,7 +128,11 @@ export default function BookingContent() {
             Thank you! Our team will contact you within 2 hours to confirm via call or WhatsApp.
           </p>
           <div className="flex gap-3 justify-center">
-            <a href="/patient/dashboard" className="btn-outline inline-block text-sm px-6">View Bookings</a>
+            {isAdmin ? (
+              <a href="/admin" className="btn-outline inline-block text-sm px-6">Admin Dashboard</a>
+            ) : (
+              <a href="/patient/dashboard" className="btn-outline inline-block text-sm px-6">View Bookings</a>
+            )}
             <a href="/" className="btn-primary inline-block text-sm px-6">Back to Home</a>
           </div>
         </div>

@@ -9,19 +9,11 @@ export default function BookingStrip() {
           <p className="text-white/70 text-base">Pick your doctor and preferred time — we'll confirm within 2 hours.</p>
         </div>
         <div className="flex gap-3 flex-wrap items-center">
-          <select className="bg-white/15 border border-white/30 text-white px-5 py-3 rounded-full text-sm min-w-[180px] cursor-pointer">
-            <option className="text-blue-900 bg-white">Select Specialty</option>
-            <option className="text-blue-900 bg-white">General Medicine</option>
-            <option className="text-blue-900 bg-white">Dental Care</option>
-            {/* <option className="text-blue-900 bg-white">Radiology</option> */}
-          </select>
-          <select className="bg-white/15 border border-white/30 text-white px-5 py-3 rounded-full text-sm min-w-[180px] cursor-pointer">
-            <option className="text-blue-900 bg-white">Select Doctor</option>
-            <option className="text-blue-900 bg-white">Dr. Paritosh Mishra</option>
-            <option className="text-blue-900 bg-white">Dr. Rajni Mishra</option>
-          </select>
+          <Link href="/doctors" className="bg-white/15 border border-white/30 text-white px-7 py-3 rounded-full text-sm font-medium hover:bg-white/25 transition-all">
+            Browse Doctors
+          </Link>
           <Link href="/booking" className="bg-white text-blue-800 px-7 py-3 rounded-full text-sm font-bold hover:bg-blue-50 transition-all hover:-translate-y-0.5 shadow-lg">
-            Check Availability
+            Book Appointment
           </Link>
         </div>
       </div>

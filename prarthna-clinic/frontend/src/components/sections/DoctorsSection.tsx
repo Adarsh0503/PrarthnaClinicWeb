@@ -1,33 +1,39 @@
+'use client'
+
+import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
-import { Star, Users, Calendar } from 'lucide-react'
+import { Star, Users, Calendar, Stethoscope } from 'lucide-react'
 
-const doctors = [
-  {
-    id: 1,
-    name: 'Dr. Paritosh Mishra',
-    spec: 'MBBS · Senior Physician & Founder',
-    hospital: 'Dr Paritosh Clinic, Faridabad',
-    patients: '2000+',
-    rating: '4.9',
-    exp: '20+ yrs',
-    image: '/images/dr-paritosh.jpg',
-    available: true,
-  },
-  {
-    id: 2,
-    name: 'Dr. Rajni Mishra',
-    spec: 'BDS · Dental Specialist',
-    hospital: 'Prarthna Clinic, Tigri Colony',
-    patients: '1500+',
-    rating: '4.8',
-    exp: '15+ yrs',
-    image: '/images/dr-rajni.jpg',
-    available: true,
-  },
-]
+const API = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8080'
+
+interface Doctor {
+  id: number
+  name: string
+  specialization: string
+  qualification: string
+  hospital: string
+  bio: string
+  experience: number
+  averageRating: number
+  totalPatients: number
+  photo: string | null
+  isApproved: string
+}
 
 export default function DoctorsSection() {
+  const [doctors, setDoctors] = useState<Doctor[]>([])
+
+  useEffect(() => {
+    fetch(`${API}/api/doctors`)
+      .then(r => r.json())
+      .then(data => {
+        const approved = (data.data || []).filter((d: Doctor) => d.isApproved === 'approved')
+        setDoctors(approved.slice(0, 2)) // show max 2 on home page
+      })
+      .catch(console.error)
+  }, [])
+
   return (
     <section className="py-24 px-6 bg-white" id="doctors">
       <div className="max-w-7xl mx-auto">
@@ -43,28 +49,34 @@ export default function DoctorsSection() {
           {doctors.map((doc) => (
             <div key={doc.id} className="card overflow-hidden group">
               <div className="relative h-72 bg-blue-50 overflow-hidden">
-                <Image
-                  src={doc.image}
-                  alt={doc.name}
-                  fill
-                  className="object-cover object-top group-hover:scale-105 transition-transform duration-500"
-                />
-                {doc.available && (
-                  <span className="absolute top-3 right-3 bg-white/95 text-green-700 text-xs font-semibold px-3 py-1 rounded-full border border-green-200">
-                    ● Available Today
-                  </span>
+                {doc.photo ? (
+                  <Image
+                    src={doc.photo}
+                    alt={doc.name}
+                    fill
+                    className="object-cover object-top group-hover:scale-105 transition-transform duration-500"
+                  />
+                ) : (
+                  <div className="w-full h-full flex items-center justify-center">
+                    <Stethoscope size={48} className="text-blue-200" />
+                  </div>
                 )}
+                <span className="absolute top-3 right-3 bg-white/95 text-green-700 text-xs font-semibold px-3 py-1 rounded-full border border-green-200">
+                  ● Available Today
+                </span>
               </div>
               <div className="p-6">
                 <h3 className="font-serif text-xl font-bold text-blue-900 mb-1">{doc.name}</h3>
-                <p className="text-blue-600 text-sm font-medium mb-1">{doc.spec}</p>
+                <p className="text-blue-600 text-sm font-medium mb-1">
+                  {doc.qualification} · {doc.specialization}
+                </p>
                 <p className="text-slate-400 text-sm mb-4">🏥 {doc.hospital}</p>
 
                 <div className="flex justify-between border-t border-blue-50 pt-4 mb-5">
                   {[
-                    { icon: Users,    val: doc.patients, lbl: 'Patients' },
-                    { icon: Star,     val: doc.rating + ' ★', lbl: 'Rating' },
-                    { icon: Calendar, val: doc.exp,      lbl: 'Exp.' },
+                    { icon: Users,    val: `${doc.totalPatients}+`, lbl: 'Patients' },
+                    { icon: Star,     val: `${doc.averageRating} ★`, lbl: 'Rating' },
+                    { icon: Calendar, val: `${doc.experience}+ yrs`, lbl: 'Exp.' },
                   ].map(({ icon: Icon, val, lbl }) => (
                     <div key={lbl} className="text-center">
                       <div className="text-base font-bold text-blue-900">{val}</div>
