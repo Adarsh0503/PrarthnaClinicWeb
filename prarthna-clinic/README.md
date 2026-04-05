@@ -1,8 +1,8 @@
 <div align="center">
 
-<img src="prarthna-images/logo.png" alt="Prarthna Clinic Logo" width="120" />
+<img src="frontend/public/images/logo.png" alt="Prarthna Clinic Logo" width="110" />
 
-# Prarthna Multispeciality Clinic
+# 🏥 Prarthna Multispeciality Clinic
 
 ### Complete Dental & Health Care · Tigri Colony, Delhi & Faridabad
 
@@ -18,434 +18,69 @@
 
 ---
 
-## Table of Contents
+## 📁 Project Structure
 
-- [Overview](#overview)
-- [Screenshots](#screenshots)
-- [Meet the Doctors](#meet-the-doctors)
-- [Tech Stack](#tech-stack)
-- [Features](#features)
-- [Architecture](#architecture)
-- [Project Structure](#project-structure)
-- [Data Model](#data-model)
-- [API Reference](#api-reference)
-- [Getting Started](#getting-started)
-- [Environment Variables](#environment-variables)
-- [Deployment](#deployment)
-- [Seeded Data](#seeded-data)
-- [Known Issues & Improvements](#known-issues--improvements)
+```
+prarthna-clinic/
+├── frontend/          # Next.js 14 + Tailwind CSS + TypeScript
+├── backend/           # Spring Boot 3 + Java 17 + PostgreSQL + JWT
+└── README.md
+```
 
 ---
 
-## Overview
-
-**Prarthna Multispeciality Clinic** is a full-stack, production-deployed web application for a real multispeciality clinic in Delhi NCR. It handles the complete patient journey — from discovering doctors to booking and managing appointments — with separate dashboards for patients, doctors, and admins.
-
-The clinic offers **General Medicine & Diabetology** (Dr. Paritosh Mishra, MBBS) and **Complete Dental Care** (Dr. Rajni Mishra, BDS), alongside lab diagnostics, paediatric care, women's health, and chronic disease management.
-
----
-
-## Screenshots
-
-### Home — Hero Section
-
-<img src="prarthna-images/doctors-together.jpg" alt="Prarthna Clinic Doctors" width="100%" style="border-radius: 12px; margin-bottom: 8px;" />
-
-*Dr. Paritosh Mishra and Dr. Rajni Mishra — the founding doctors of Prarthna Clinic*
-
-### Dental Care Services
-
-<img src="prarthna-images/dental-care.jpg" alt="Dental Care at Prarthna Clinic" width="100%" style="border-radius: 12px;" />
-
-*State-of-the-art dental services by Dr. Rajni Mishra, BDS*
-
----
-
-## Meet the Doctors
+## 👨‍⚕️ Meet the Doctors
 
 <table>
 <tr>
 <td align="center" width="50%">
 
-<img src="prarthna-images/dr-paritosh.jpg" alt="Dr. Paritosh Mishra" width="200" style="border-radius: 50%; object-fit: cover;" />
+<img src="frontend/public/images/dr-paritosh.jpg" alt="Dr. Paritosh Mishra" width="180" style="border-radius:50%;object-fit:cover;" />
 
 ### Dr. Paritosh Mishra
 **MBBS · Senior Physician & Founder**
 
-- 🏥 Sun Rise Hospital, Faridabad
-- ⭐ 4.9 rating · 872 reviews
-- 👥 2000+ patients treated
-- 💼 20 years of experience
-- 💊 General Medicine, Diabetes, Hypertension
-- 📞 +91-9599752226
-- 💰 Consultation: ₹500
+⭐ 4.9 · 872 reviews · 2000+ patients · 20 yrs exp
+💰 Consultation: ₹500
 
-*Founder of Prarthna Clinic. Specialises in general medicine, diabetes management, and hypertension across Delhi NCR.*
+*General Medicine, Diabetes, Hypertension*
 
 </td>
 <td align="center" width="50%">
 
-<img src="prarthna-images/dr-rajni.jpg" alt="Dr. Rajni Mishra" width="200" style="border-radius: 50%; object-fit: cover;" />
+<img src="frontend/public/images/dr-rajni.jpg" alt="Dr. Rajni Mishra" width="180" style="border-radius:50%;object-fit:cover;" />
 
 ### Dr. Rajni Mishra
 **BDS · Dental Specialist**
 
-- 🏥 Prarthna Clinic, Tigri Colony, Delhi
-- ⭐ 4.8 rating · 272 reviews
-- 👥 1500+ patients treated
-- 💼 15 years of experience
-- 🦷 Cosmetic Dentistry, Root Canal, Orthodontics
-- 💰 Consultation: ₹400
+⭐ 4.8 · 272 reviews · 1500+ patients · 15 yrs exp
+💰 Consultation: ₹400
 
-*Known for her gentle, patient-first approach. Expert in cosmetic dentistry, orthodontics, RCT, and paediatric dentistry.*
+*Cosmetic Dentistry, Root Canal, Orthodontics*
 
 </td>
 </tr>
 </table>
 
----
-
-## Tech Stack
-
-### Frontend
-| Technology | Version | Purpose |
-|---|---|---|
-| Next.js | 14.2.3 | React framework (App Router) |
-| TypeScript | ^5 | Type safety |
-| Tailwind CSS | ^3.4.1 | Utility-first styling |
-| Framer Motion | ^11.0.24 | Animations |
-| Radix UI | Various | Accessible primitives (Dialog, Select, Accordion, Tabs) |
-| React Hook Form | ^7.51.1 | Form management |
-| Zod | ^3.22.4 | Schema validation |
-| Axios | ^1.6.7 | HTTP client |
-| lucide-react | ^0.363.0 | Icons |
-| react-hot-toast | ^2.4.1 | Toast notifications |
-| date-fns | ^3.6.0 | Date formatting |
-| jwt-decode | ^4.0.0 | JWT parsing |
-| js-cookie | ^3.0.5 | Cookie utilities |
-
-### Backend
-| Technology | Version | Purpose |
-|---|---|---|
-| Spring Boot | 3.2.4 | Application framework |
-| Java | 17 | Runtime |
-| Spring Security | (Boot managed) | Auth + role-based access |
-| Spring Data JPA | (Boot managed) | ORM layer |
-| PostgreSQL | 16 | Production database |
-| H2 | (runtime) | Test database |
-| JJWT | 0.12.5 | JWT generation & validation |
-| Lombok | (Boot managed) | Boilerplate reduction |
-| ModelMapper | 3.2.0 | DTO mapping |
-| Cloudinary | 1.38.0 | Image upload (optional) |
-| BCrypt | (Spring Security) | Password hashing |
-
-### Infrastructure
-| Service | Purpose |
-|---|---|
-| Vercel | Frontend hosting |
-| Docker (multistage) | Backend containerisation |
-| PostgreSQL (Render/Railway) | Production database |
-| AWS S3 | Doctor photo storage |
+<div align="center">
+<img src="frontend/public/images/doctors-together.jpg" alt="Prarthna Clinic Doctors" width="75%" style="border-radius:12px;" />
+<br/><br/>
+<img src="frontend/public/images/dental-care.jpg" alt="Dental Care at Prarthna Clinic" width="75%" style="border-radius:12px;" />
+</div>
 
 ---
 
-## Features
-
-### Public
-- **Home page** — hero, trust bar, services, doctors section, about, FAQ, testimonials, booking strip
-- **Doctors listing** — all approved doctors with ratings, specialization, experience, and pricing
-- **Doctor profile** — full bio, time slots, patient reviews
-- **Services page** — all medical and dental services with booking CTAs
-- **About page** — clinic story, values, team section
-- **Contact page** — contact form, phone, email, clinic hours
-
-### Patient
-- Register / login with JWT authentication
-- Book appointments (select doctor → date → time slot → reason)
-- View and cancel own bookings
-- Leave reviews on doctors (one per doctor)
-- Profile management (name, phone, gender, blood type)
-
-### Doctor
-- Register (pending admin approval)
-- Edit profile (specialization, qualification, bio, experience, pricing)
-- Manage time slots (add/remove by day with start/end time)
-- View own appointment bookings
-- Approve or cancel appointments
-
-### Admin
-- Dashboard with stats (total users, doctors, bookings)
-- View and manage all users
-- Approve or reject pending doctor registrations
-- View all bookings across the system
-- Book appointments on behalf of patients
-
----
-
-## Architecture
-
-```
-┌─────────────────────────────────────────────────────────┐
-│                    Next.js Frontend                      │
-│  (Vercel · App Router · TypeScript · Tailwind)          │
-│                                                          │
-│  Public Pages    Auth Pages    Role Dashboards           │
-│  ─────────────   ──────────    ───────────────           │
-│  Home            Login         Patient Dashboard         │
-│  Doctors         Register      Doctor Dashboard          │
-│  Services                      Admin Dashboard           │
-│  About                                                   │
-│  Contact                                                 │
-│                                                          │
-│         Axios (lib/api.ts) · JWT Bearer Token           │
-└────────────────────┬────────────────────────────────────┘
-                     │ HTTPS REST API
-                     ▼
-┌─────────────────────────────────────────────────────────┐
-│              Spring Boot Backend                         │
-│         (Docker · Java 17 · Port 8081)                  │
-│                                                          │
-│  JwtAuthFilter → Spring Security → Role-based access    │
-│                                                          │
-│  /api/auth/**          Public                           │
-│  GET /api/doctors/**   Public                           │
-│  /api/bookings/**      Authenticated                    │
-│  /api/admin/**         ADMIN only                       │
-│                                                          │
-└────────────────────┬────────────────────────────────────┘
-                     │ JPA / Hibernate
-                     ▼
-┌─────────────────────────────────────────────────────────┐
-│                  PostgreSQL Database                      │
-│                                                          │
-│   users ──────────────────────────── bookings           │
-│   doctors ─────────────────────────┘                    │
-│       └──── time_slots                                   │
-│       └──── reviews                                      │
-└─────────────────────────────────────────────────────────┘
-```
-
----
-
-## Project Structure
-
-```
-prarthna-clinic/
-├── frontend/                          # Next.js application
-│   ├── src/
-│   │   ├── app/
-│   │   │   ├── page.tsx               # Home page
-│   │   │   ├── layout.tsx             # Root layout (fonts, navbar, footer)
-│   │   │   ├── globals.css            # Global styles
-│   │   │   ├── about/page.tsx
-│   │   │   ├── services/page.tsx
-│   │   │   ├── contact/page.tsx
-│   │   │   ├── doctors/
-│   │   │   │   ├── page.tsx           # Doctor listing
-│   │   │   │   └── [id]/page.tsx      # Doctor profile
-│   │   │   ├── booking/
-│   │   │   │   ├── page.tsx
-│   │   │   │   └── BookingContent.tsx # Main booking form (auth-gated)
-│   │   │   ├── login/page.tsx
-│   │   │   ├── register/page.tsx
-│   │   │   ├── patient/dashboard/page.tsx
-│   │   │   ├── doctor/
-│   │   │   │   ├── dashboard/page.tsx
-│   │   │   │   └── profile/page.tsx
-│   │   │   └── admin/page.tsx
-│   │   ├── components/
-│   │   │   ├── layout/
-│   │   │   │   ├── Navbar.tsx
-│   │   │   │   └── Footer.tsx
-│   │   │   └── sections/
-│   │   │       ├── HeroSection.tsx
-│   │   │       ├── TrustBar.tsx
-│   │   │       ├── ServicesSection.tsx
-│   │   │       ├── DoctorsSection.tsx
-│   │   │       ├── AboutSection.tsx
-│   │   │       ├── TestimonialsSection.tsx
-│   │   │       ├── FaqSection.tsx
-│   │   │       └── BookingStrip.tsx
-│   │   ├── hooks/
-│   │   │   └── useAuth.tsx            # AuthContext + AuthProvider
-│   │   ├── lib/
-│   │   │   └── api.ts                 # Axios instance + all API modules
-│   │   └── types/
-│   │       └── index.ts               # TypeScript interfaces
-│   ├── public/images/                 # Static assets
-│   ├── tailwind.config.js
-│   ├── next.config.js
-│   └── package.json
-│
-└── backend/                           # Spring Boot application
-    ├── src/main/java/com/prarthna/clinic/
-    │   ├── ClinicApplication.java
-    │   ├── config/
-    │   │   ├── AppConfig.java
-    │   │   ├── SecurityConfig.java
-    │   │   └── DataSeeder.java        # Seeds admin + 2 doctors on startup
-    │   ├── controller/
-    │   │   ├── AuthController.java    # POST /api/auth/register, /login
-    │   │   ├── DoctorController.java  # CRUD + reviews
-    │   │   ├── BookingController.java # Create, list, approve, cancel
-    │   │   ├── UserController.java    # Profile get/update
-    │   │   └── AdminController.java   # Admin-only operations
-    │   ├── service/
-    │   │   ├── AuthService.java
-    │   │   ├── BookingService.java
-    │   │   ├── DoctorService.java
-    │   │   └── ReviewService.java
-    │   ├── entity/
-    │   │   ├── User.java
-    │   │   ├── Doctor.java
-    │   │   ├── Booking.java
-    │   │   ├── TimeSlot.java
-    │   │   └── Review.java
-    │   ├── dto/Dto.java               # All DTOs in one file
-    │   ├── repository/                # JPA repositories
-    │   ├── security/
-    │   │   ├── JwtAuthFilter.java
-    │   │   ├── JwtUtils.java
-    │   │   └── CustomUserDetailsService.java
-    │   └── exception/
-    │       ├── GlobalExceptionHandler.java
-    │       ├── BadRequestException.java
-    │       └── ResourceNotFoundException.java
-    ├── src/test/
-    ├── Dockerfile
-    └── pom.xml
-```
-
----
-
-## Data Model
-
-### Entity Relationships
-
-```
-users (id, name, email, password, phone, photo, gender, bloodType, role)
-  role: patient | doctor | admin
-
-doctors (id, name, email, password, phone, photo, specialization,
-         qualification, hospital, bio, about, experience, ticketPrice,
-         averageRating, totalRating, totalPatients, isApproved)
-  isApproved: pending | approved | cancelled
-
-bookings (id, doctor_id, user_id, appointmentDate, timeSlot,
-          reason, ticketPrice, status, isPaid, createdAt, updatedAt)
-  status: pending | approved | cancelled
-
-time_slots (id, doctor_id, day, startTime, endTime, isAvailable)
-  day: Monday | Tuesday | ... | Sunday
-
-reviews (id, doctor_id, user_id, rating, reviewText, createdAt)
-  rating: 1–5  ·  one review per user per doctor
-```
-
-> **Note:** Doctors authenticate through a separate `doctors` table. `CustomUserDetailsService` checks both `users` and `doctors` tables on every login.
-
----
-
-## API Reference
-
-All responses follow:
-```json
-{
-  "success": true,
-  "message": "...",
-  "data": { ... }
-}
-```
-
-### Auth — Public
-
-| Method | Endpoint | Body | Description |
-|---|---|---|---|
-| POST | `/api/auth/register` | `{name, email, password, phone, role}` | Register patient or doctor |
-| POST | `/api/auth/login` | `{email, password}` | Login, returns JWT |
-
-### Doctors — Public
-
-| Method | Endpoint | Description |
-|---|---|---|
-| GET | `/api/doctors` | All approved doctors (supports `?specialization=&search=`) |
-| GET | `/api/doctors/{id}` | Doctor detail with reviews |
-| GET | `/api/doctors/{id}/reviews` | Doctor's reviews |
-
-### Doctors — Protected
-
-| Method | Endpoint | Role | Description |
-|---|---|---|---|
-| PUT | `/api/doctors/{id}` | DOCTOR / ADMIN | Update profile + time slots |
-| POST | `/api/doctors/{id}/reviews` | PATIENT | Submit review |
-| DELETE | `/api/reviews/{reviewId}` | Authenticated | Delete own review |
-
-### Bookings — Authenticated
-
-| Method | Endpoint | Description |
-|---|---|---|
-| POST | `/api/bookings` | Create booking |
-| GET | `/api/bookings/my` | Patient's own bookings |
-| GET | `/api/bookings/doctor` | Doctor's incoming bookings |
-| PATCH | `/api/bookings/{id}/approve` | Doctor approves booking |
-| PATCH | `/api/bookings/{id}/cancel` | Cancel booking |
-
-### Users — Authenticated
-
-| Method | Endpoint | Description |
-|---|---|---|
-| GET | `/api/users/profile` | Get own profile |
-| PUT | `/api/users/profile` | Update own profile |
-
-### Admin — ADMIN only
-
-| Method | Endpoint | Description |
-|---|---|---|
-| GET | `/api/admin/doctors` | All doctors (including pending) |
-| PATCH | `/api/admin/doctors/{id}/approve` | Approve doctor |
-| PATCH | `/api/admin/doctors/{id}/reject` | Reject doctor |
-| GET | `/api/admin/users` | All registered users |
-| GET | `/api/admin/bookings` | All bookings |
-| GET | `/api/admin/stats` | `{totalUsers, totalDoctors, totalBookings}` |
-
----
-
-## Getting Started
+## 🚀 Quick Start
 
 ### Prerequisites
-
 - Node.js 18+
 - Java 17+
 - Maven 3.9+
-- PostgreSQL 14+ (or use H2 for local dev)
+- PostgreSQL 14+ (or use H2 in-memory for dev)
 
-### 1. Clone the repository
+---
 
-```bash
-git clone https://github.com/your-username/PrarthnaClinicWeb.git
-cd PrarthnaClinicWeb/prarthna-clinic
-```
-
-### 2. Backend setup
-
-```bash
-cd backend
-
-# Copy and configure environment
-cp src/main/resources/application.properties.example src/main/resources/application.properties
-# Edit application.properties with your DB credentials (see Environment Variables)
-
-# Run with Maven
-./mvnw spring-boot:run
-
-# Or build and run JAR
-./mvnw clean package -DskipTests
-java -jar target/clinic-backend-1.0.0.jar
-```
-
-The backend starts on **port 8081** by default.
-
-### 3. Frontend setup
+## 🖥️ Frontend Setup (Next.js)
 
 ```bash
 cd frontend
@@ -453,163 +88,312 @@ cd frontend
 # Install dependencies
 npm install
 
-# Copy environment file
+# Copy env file
 cp .env.local.example .env.local
-# Edit .env.local: set NEXT_PUBLIC_API_URL=http://localhost:8081
+# Edit .env.local → set NEXT_PUBLIC_API_URL=http://localhost:8081
 
-# Run development server
+# Run dev server
 npm run dev
 ```
 
-The frontend starts on **http://localhost:3000**.
+Runs at → **http://localhost:3000**
 
-### 4. Using Docker (backend only)
+### Build for production
+```bash
+npm run build
+npm start
+```
+
+---
+
+## ⚙️ Backend Setup (Spring Boot)
+
+### Option A — PostgreSQL (recommended)
+
+**1. Create database**
+```sql
+CREATE DATABASE prarthnadb;
+```
+
+**2. Set environment variables** (or edit `application.properties`):
+```bash
+export SPRING_DATASOURCE_URL=jdbc:postgresql://localhost:5432/prarthnadb
+export SPRING_DATASOURCE_USERNAME=postgres
+export SPRING_DATASOURCE_PASSWORD=yourpassword
+export JWT_SECRET=your-secret-key-minimum-32-characters-long
+export CORS_ALLOWED_ORIGINS=http://localhost:3000
+```
+
+**3. Run the application**
+```bash
+cd backend
+mvn spring-boot:run
+```
+
+Runs at → **http://localhost:8081**
+
+---
+
+### Option B — H2 In-Memory (no database needed, dev only)
+
+Uncomment the H2 block and comment out the PostgreSQL block in `backend/src/main/resources/application.properties`:
+
+```properties
+# H2 (dev)
+spring.datasource.url=jdbc:h2:mem:prarthnadb;DB_CLOSE_DELAY=-1;NON_KEYWORDS=DAY,VALUE,TIME
+spring.datasource.driver-class-name=org.h2.Driver
+spring.datasource.username=sa
+spring.datasource.password=
+spring.jpa.hibernate.ddl-auto=create
+spring.h2.console.enabled=true
+spring.h2.console.path=/h2-console
+
+# Comment out PostgreSQL lines when using H2
+# spring.datasource.url=${SPRING_DATASOURCE_URL}
+# spring.datasource.username=${SPRING_DATASOURCE_USERNAME}
+# spring.datasource.password=${SPRING_DATASOURCE_PASSWORD}
+```
+
+---
+
+### Option C — Docker
 
 ```bash
 cd backend
 docker build -t prarthna-clinic-backend .
+
 docker run -p 8081:8080 \
-  -e SPRING_DATASOURCE_URL=jdbc:postgresql://host:5432/prarthnadb \
+  -e SPRING_DATASOURCE_URL=jdbc:postgresql://host.docker.internal:5432/prarthnadb \
   -e SPRING_DATASOURCE_USERNAME=postgres \
   -e SPRING_DATASOURCE_PASSWORD=yourpassword \
-  -e JWT_SECRET=your-secret-key-min-32-chars \
+  -e JWT_SECRET=your-secret-key-minimum-32-characters-long \
   -e CORS_ALLOWED_ORIGINS=http://localhost:3000 \
   prarthna-clinic-backend
 ```
 
 ---
 
-## Environment Variables
+## 🔑 Default Credentials (seeded on first run)
 
-### Backend (`application.properties` or environment)
+| Role   | Email                     | Password   |
+|--------|---------------------------|------------|
+| Admin  | admin@prartnaclinic.in    | Admin@123  |
+| Doctor | parit1605@gmail.com       | Doctor@123 |
+| Doctor | rajni@prartnaclinic.in    | Doctor@123 |
 
-| Variable | Description | Default |
-|---|---|---|
-| `SPRING_DATASOURCE_URL` | PostgreSQL JDBC URL | — (required) |
-| `SPRING_DATASOURCE_USERNAME` | DB username | — (required) |
-| `SPRING_DATASOURCE_PASSWORD` | DB password | — (required) |
-| `JWT_SECRET` | JWT signing secret (min 32 chars) | Fallback key (change in prod!) |
-| `PORT` | Server port | `8081` |
-| `CORS_ALLOWED_ORIGINS` | Comma-separated allowed origins | `https://prarthna-clinic-web.vercel.app` |
-| `LOG_LEVEL` | Logging level for `com.prarthna` | `DEBUG` |
-
-### Frontend (`.env.local`)
-
-| Variable | Description | Default |
-|---|---|---|
-| `NEXT_PUBLIC_API_URL` | Backend API base URL | `http://localhost:8080` |
+> **Note:** `DataSeeder` runs automatically on first startup and creates the admin account plus both doctors with approved status and full time slots (Mon–Sat 11AM–7PM, Sun 11AM–2PM). No manual DB inserts needed.
 
 ---
 
-## Deployment
+## 🌐 Pages (Frontend)
 
-### Frontend — Vercel
+| Route                | Description                                       | Auth Required |
+|----------------------|---------------------------------------------------|---------------|
+| `/`                  | Home — hero, services, doctors, FAQ, testimonials | No            |
+| `/doctors`           | All approved doctors listing                      | No            |
+| `/doctors/[id]`      | Doctor profile with reviews & time slots          | No            |
+| `/services`          | All medical & dental services                     | No            |
+| `/about`             | Clinic story, values, team                        | No            |
+| `/contact`           | Contact form, addresses, phone, hours             | No            |
+| `/booking`           | Book an appointment                               | Patient/Admin |
+| `/login`             | Login page (all roles)                            | No            |
+| `/register`          | New account registration                          | No            |
+| `/patient/dashboard` | View & cancel own appointments                    | Patient       |
+| `/doctor/dashboard`  | Manage incoming bookings                          | Doctor        |
+| `/doctor/profile`    | Edit profile & time slots                         | Doctor        |
+| `/admin`             | Admin dashboard — users, doctors, bookings, stats | Admin         |
 
-1. Push to GitHub
-2. Import repository in [Vercel dashboard](https://vercel.com)
-3. Set root directory to `prarthna-clinic/frontend`
-4. Add environment variable: `NEXT_PUBLIC_API_URL=https://your-backend-url`
-5. Deploy
+---
 
-### Backend — Docker + Railway / Render
+## 📡 API Endpoints
 
-```bash
-# Build the multistage Docker image
-docker build -t prarthna-backend ./backend
-
-# Push to your container registry
-docker tag prarthna-backend your-registry/prarthna-backend:latest
-docker push your-registry/prarthna-backend:latest
+All responses follow the envelope:
+```json
+{ "success": true, "message": "...", "data": { ... } }
 ```
 
-Set these environment variables in your hosting provider:
+### Auth — Public
+
+| Method | Endpoint             | Body                                   | Description        |
+|--------|----------------------|----------------------------------------|--------------------|
+| POST   | `/api/auth/register` | `{name, email, password, phone, role}` | Register user      |
+| POST   | `/api/auth/login`    | `{email, password}`                    | Login, returns JWT |
+
+### Doctors — Public
+
+| Method | Endpoint                    | Query Params             | Description             |
+|--------|-----------------------------|--------------------------|-------------------------|
+| GET    | `/api/doctors`              | `?specialization=&search=` | All approved doctors  |
+| GET    | `/api/doctors/{id}`         | —                        | Doctor detail + reviews |
+| GET    | `/api/doctors/{id}/reviews` | —                        | Doctor's reviews        |
+
+### Doctors — Protected
+
+| Method | Endpoint                    | Role           | Description            |
+|--------|-----------------------------|----------------|------------------------|
+| PUT    | `/api/doctors/{id}`         | DOCTOR / ADMIN | Update profile + slots |
+| POST   | `/api/doctors/{id}/reviews` | PATIENT        | Submit review          |
+| DELETE | `/api/doctors/reviews/{id}` | Authenticated  | Delete own review      |
+
+### Bookings — Authenticated
+
+| Method | Endpoint                     | Role     | Description       |
+|--------|------------------------------|----------|-------------------|
+| POST   | `/api/bookings`              | Patient  | Create booking    |
+| GET    | `/api/bookings/my`           | Patient  | My bookings       |
+| GET    | `/api/bookings/doctor`       | Doctor   | Incoming bookings |
+| PATCH  | `/api/bookings/{id}/approve` | Doctor   | Approve booking   |
+| PATCH  | `/api/bookings/{id}/cancel`  | Any auth | Cancel booking    |
+
+### Users — Authenticated
+
+| Method | Endpoint             | Description       |
+|--------|----------------------|-------------------|
+| GET    | `/api/users/profile` | Get my profile    |
+| PUT    | `/api/users/profile` | Update my profile |
+
+### Admin — ADMIN only
+
+| Method | Endpoint                          | Description                              |
+|--------|-----------------------------------|------------------------------------------|
+| GET    | `/api/admin/doctors`              | All doctors (any status)                 |
+| PATCH  | `/api/admin/doctors/{id}/approve` | Approve doctor                           |
+| PATCH  | `/api/admin/doctors/{id}/reject`  | Reject doctor                            |
+| GET    | `/api/admin/users`                | All registered users                     |
+| GET    | `/api/admin/bookings`             | All bookings                             |
+| GET    | `/api/admin/stats`                | `{totalUsers, totalDoctors, totalBookings}` |
+
+---
+
+## 🖼️ Images
+
+Place photos in `frontend/public/images/`:
+
+```
+frontend/public/images/
+├── logo.png              ← Clinic logo
+├── dr-paritosh.jpg       ← Dr. Paritosh Mishra photo
+├── dr-rajni.jpg          ← Dr. Rajni Mishra photo
+├── doctors-together.jpg  ← Both doctors together
+└── dental-care.jpg       ← Dental service photo
+```
+
+---
+
+## 🛠️ Tech Stack
+
+| Layer      | Technology                                              |
+|------------|---------------------------------------------------------|
+| Frontend   | Next.js 14, React 18, TypeScript, Tailwind CSS         |
+| UI         | Radix UI, Framer Motion, lucide-react, react-hot-toast |
+| Forms      | React Hook Form, Zod                                    |
+| HTTP       | Axios (with JWT interceptor + 401 auto-redirect)        |
+| Backend    | Spring Boot 3.2, Java 17, Spring Security              |
+| Database   | PostgreSQL 16 (H2 for dev/test)                        |
+| Auth       | JWT (jjwt 0.12.5), BCrypt                              |
+| ORM        | Spring Data JPA / Hibernate                             |
+| Validation | Jakarta Bean Validation                                 |
+| Images     | Cloudinary (optional), AWS S3                           |
+| Container  | Docker (multistage — Maven build → JRE Alpine)         |
+
+---
+
+## 🚢 Deployment
+
+### Frontend → Vercel
+
+```bash
+# Push to GitHub, connect repo at vercel.com
+# Set environment variable:
+# NEXT_PUBLIC_API_URL=https://your-backend-url.com
+```
+
+### Backend → Railway / Render / AWS
+
+```bash
+cd backend
+mvn clean package -DskipTests
+# JAR lives at: target/clinic-backend-1.0.0.jar
+java -jar target/clinic-backend-1.0.0.jar
+```
+
+Or use Docker (see Option C above). Set these env vars in your hosting provider:
 
 ```env
 SPRING_DATASOURCE_URL=jdbc:postgresql://<host>:<port>/<dbname>
 SPRING_DATASOURCE_USERNAME=<username>
 SPRING_DATASOURCE_PASSWORD=<password>
-JWT_SECRET=<your-long-random-secret>
+JWT_SECRET=<your-long-random-secret-min-32-chars>
 CORS_ALLOWED_ORIGINS=https://prarthna-clinic-web.vercel.app
 PORT=8080
 ```
 
-The Dockerfile uses a **multistage build**:
-- Stage 1: Maven + JDK 17 → builds the JAR
-- Stage 2: Eclipse Temurin 17 JRE Alpine → runs the JAR (lightweight ~100MB image)
+---
+
+## 🔐 Security Notes
+
+> **⚠️ Important for all contributors**
+
+- **Never commit `.pem` files.** The root `.gitignore` includes `*.pem`. If you need an SSH key to access a server, store it in `~/.ssh/` — never inside the project folder.
+- **JWT secret** has a fallback hardcoded for local dev. Always set `JWT_SECRET` as an environment variable in production and never rely on the default.
+- **Admin self-registration** — the `/api/auth/register` endpoint accepts `role=admin`. Do not expose this endpoint publicly without additional protection.
+
+```bash
+# Safe way to store SSH keys — never in the project directory
+mv prarthnaClinic.pem ~/.ssh/
+chmod 400 ~/.ssh/prarthnaClinic.pem
+ssh -i ~/.ssh/prarthnaClinic.pem ec2-user@your-server-ip
+```
 
 ---
 
-## Seeded Data
+## 🌍 Environment Variables
 
-On first startup, `DataSeeder` automatically creates:
+### Backend
 
-### Admin Account
-| Field | Value |
-|---|---|
-| Email | `admin@prartnaclinic.in` |
-| Password | `Admin@123` |
-| Role | `admin` |
+| Variable                     | Description                       | Default                                   |
+|------------------------------|-----------------------------------|-------------------------------------------|
+| `SPRING_DATASOURCE_URL`      | PostgreSQL JDBC URL               | — (required in prod)                      |
+| `SPRING_DATASOURCE_USERNAME` | DB username                       | — (required in prod)                      |
+| `SPRING_DATASOURCE_PASSWORD` | DB password                       | — (required in prod)                      |
+| `JWT_SECRET`                 | Signing secret (min 32 chars)     | Fallback key (**change in prod!**)        |
+| `PORT`                       | Server port                       | `8081`                                    |
+| `CORS_ALLOWED_ORIGINS`       | Comma-separated allowed origins   | `https://prarthna-clinic-web.vercel.app`  |
+| `LOG_LEVEL`                  | Log level for `com.prarthna`      | `DEBUG`                                   |
 
-### Doctor Accounts
-| Field | Dr. Paritosh | Dr. Rajni |
-|---|---|---|
-| Email | `parit1605@gmail.com` | `rajni@prartnaclinic.in` |
-| Password | `Doctor@123` | `Doctor@123` |
-| Specialization | General Physician & Diabetologist | Dentist |
-| Status | Approved | Approved |
-| Consultation | ₹500 | ₹400 |
+### Frontend (`.env.local`)
 
-Both doctors have time slots seeded:
-- **Mon–Sat:** 11:00 AM – 7:00 PM
-- **Sunday:** 11:00 AM – 2:00 PM
+| Variable              | Description          | Default                 |
+|-----------------------|----------------------|-------------------------|
+| `NEXT_PUBLIC_API_URL` | Backend API base URL | `http://localhost:8080` |
 
 ---
 
-## Clinic Information
+## ⚠️ Known Issues
 
-| Detail | Value |
+- **Time slots** in the booking form are hardcoded on the frontend. The `/api/doctors/{id}/slots` endpoint exists in `api.ts` but is unused — time slots should be fetched from the doctor's actual records.
+- **`userAPI.update`** sends `multipart/form-data` but the backend controller expects JSON `@RequestBody`. These need to be aligned.
+- **No payment integration** — `isPaid` and `ticketPrice` fields exist as placeholders for a future Razorpay integration.
+- **Email notifications** — Spring Mail dependency is included but disabled. Configure SMTP to send booking confirmation emails.
+
+---
+
+## 📞 Clinic Info
+
+| | |
 |---|---|
-| **Clinic Name** | Prarthna Multispeciality Clinic |
-| **Founded** | 2011 |
-| **Locations** | Tigri Colony, Sangam Vihar, Delhi & Faridabad |
+| **Tigri Colony** | G-1916, Mehrauli Badarpur Road, Tigri Colony, Sangam Vihar, New Delhi – 110080 |
+| **Faridabad** | Sun Rise Hospital, Sector 15, Faridabad – 121007 |
+| **Timings** | Mon–Sat 11AM–7PM · Sunday 11AM–2PM |
 | **Phone** | +91-9599752226 |
 | **Email** | parit1605@gmail.com |
-| **Hours** | Mon–Sat: 11AM–7PM · Sunday: 11AM–2PM |
-| **Services** | General Medicine · Dentistry · Lab & Diagnostics · Paediatrics · Women's Health · Chronic Disease Management |
-
----
-
-## Known Issues & Improvements
-
-### Security
-- The JWT secret has a hardcoded fallback in `application.properties`. In production, always set `JWT_SECRET` as an environment variable and remove the default.
-- `http.headers(h -> h.frameOptions(f -> f.disable()))` disables X-Frame-Options globally (leftover from H2 console dev). Should be scoped to dev profile only.
-- The `/api/auth/register` endpoint accepts `role=admin` without restriction. Consider blocking self-registration as admin at the API level.
-
-### Code Quality
-- `BookingService.java` contains the entire original implementation as commented-out code above the live implementation. The commented block can be safely removed.
-- `userAPI.update` in `api.ts` sends `multipart/form-data`, but `UserController.updateProfile` expects `@RequestBody` JSON. These are mismatched.
-
-### Features
-- **Time slots in the booking form are hardcoded** on the frontend (`['11:00 AM', '12:00 PM', ...]`). The API endpoint `/api/doctors/{id}/slots` exists in `api.ts` but is unused — the form should fetch the doctor's actual `TimeSlot` records.
-- **No payment integration.** The `isPaid` and `ticketPrice` fields exist on `Booking` as placeholders for a future payment gateway (Razorpay recommended for India).
-- **Email notifications** — Spring Mail dependency is included but disabled via `spring.autoconfigure.exclude`. Re-enabling and configuring SMTP would allow booking confirmation emails.
-- **Image uploads** — Cloudinary dependency is included. The profile photo update endpoints are scaffolded but not fully wired end-to-end.
-
----
-
-## License
-
-Private project — Prarthna Multispeciality Clinic. All rights reserved.
 
 ---
 
 <div align="center">
 
-Built with ❤️ for **Prarthna Multispeciality Clinic**
+*Built with ❤️ for Prarthna Multispeciality Clinic*
 
 *Serving Delhi NCR families since 2011*
-
-<img src="prarthna-images/doctors-together.jpg" alt="Prarthna Clinic Team" width="400" style="border-radius: 16px; margin-top: 16px;" />
 
 </div>
