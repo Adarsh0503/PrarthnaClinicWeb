@@ -2,7 +2,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { CheckCircle2, Award, Heart, Users, Clock } from 'lucide-react'
 
-const FOUNDED = 1994
+const FOUNDED = 2011
 const YEARS   = new Date().getFullYear() - FOUNDED
 
 const values = [
